@@ -1,0 +1,160 @@
+# Accordion Component
+
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../../components/ui/accordion'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const AccordionWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Accordion mode={mode} {...props} />;
+}
+
+## Installation
+
+The Accordion component provides an expandable/collapsible content container.
+
+<ComponentCode 
+  language="bash"
+  code="npx nativecn add accordion"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic Accordion"
+  code={`<Accordion type="single" collapsible>
+  <AccordionItem id="item-1">
+    <AccordionTrigger>What is an accordion?</AccordionTrigger>
+    <AccordionContent>
+      An accordion is a vertically stacked set of interactive headings that each reveal a section of content.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem id="item-2">
+    <AccordionTrigger>When to use?</AccordionTrigger>
+    <AccordionContent>
+      Use accordions to organize related content into collapsible sections, making the page easier to scan and digest.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <AccordionWithMode type="single" collapsible>
+    <AccordionItem id="item-1">
+      <AccordionTrigger>What is an accordion?</AccordionTrigger>
+      <AccordionContent>
+        An accordion is a vertically stacked set of interactive headings that each reveal a section of content.
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem id="item-2">
+      <AccordionTrigger>When to use?</AccordionTrigger>
+      <AccordionContent>
+        Use accordions to organize related content into collapsible sections, making the page easier to scan and digest.
+      </AccordionContent>
+    </AccordionItem>
+  </AccordionWithMode>
+</ComponentPreview>
+
+## Multiple Sections
+
+<ComponentPreview
+  title="Multiple Sections Open"
+  code={`<Accordion type="multiple">
+  <AccordionItem id="item-1">
+    <AccordionTrigger>First Section</AccordionTrigger>
+    <AccordionContent>
+      This is the first section's content. Multiple sections can be open at once.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem id="item-2">
+    <AccordionTrigger>Second Section</AccordionTrigger>
+    <AccordionContent>
+      This is the second section's content. Try opening both sections!
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`}
+>
+  <AccordionWithMode type="multiple">
+    <AccordionItem id="item-1">
+      <AccordionTrigger>First Section</AccordionTrigger>
+      <AccordionContent>
+        This is the first section's content. Multiple sections can be open at once.
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem id="item-2">
+      <AccordionTrigger>Second Section</AccordionTrigger>
+      <AccordionContent>
+        This is the second section's content. Try opening both sections!
+      </AccordionContent>
+    </AccordionItem>
+  </AccordionWithMode>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Basic Accordion Implementation"
+  code={`import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '../components/ui/accordion';
+import { useColorScheme } from 'react-native';
+
+export function FAQSection() {
+  const colorScheme = useColorScheme();
+  
+  return (
+    <Accordion 
+      type="single"
+      collapsible
+      mode={colorScheme} // 'light' or 'dark' based on system preference
+    >
+      <AccordionItem id="faq-1">
+        <AccordionTrigger>Question 1</AccordionTrigger>
+        <AccordionContent>Answer to question 1</AccordionContent>
+      </AccordionItem>
+      <AccordionItem id="faq-2">
+        <AccordionTrigger>Question 2</AccordionTrigger>
+        <AccordionContent>Answer to question 2</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Accordion Props"
+  language="typescript"
+  code={`// Root Accordion Props
+interface AccordionProps {
+  type?: 'single' | 'multiple';
+  collapsible?: boolean;
+  defaultValue?: string[];
+  value?: string[];
+  onValueChange?: (value: string[]) => void;
+  className?: string;
+  mode?: 'light' | 'dark';
+  children: React.ReactNode;
+}
+
+// AccordionItem Props
+interface AccordionItemProps {
+  id: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+// AccordionTrigger Props
+interface AccordionTriggerProps {
+  className?: string;
+  textClassName?: string;
+  children: React.ReactNode;
+}
+
+// AccordionContent Props
+interface AccordionContentProps {
+  className?: string;
+  contentClassName?: string;
+  textClassName?: string;
+  children: React.ReactNode;
+}`}
+/>

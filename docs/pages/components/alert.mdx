@@ -1,0 +1,313 @@
+# Alert Component
+
+import { Alert, AlertTitle, AlertDescription } from '../../components/ui/alert'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+import { FiBell, FiInfo, FiAlertTriangle, FiCheckCircle, FiXCircle } from 'react-icons/fi'
+
+export const AlertWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Alert mode={mode} {...props} />;
+}
+
+export const AlertTitleWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <AlertTitle mode={mode} {...props} />;
+}
+
+export const AlertDescriptionWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <AlertDescription mode={mode} {...props} />;
+}
+
+## Installation
+
+The Alert component is used to display important messages to users.
+
+<ComponentCode 
+  language="bash"
+  code="npx nativecn add alert"
+  title="Installation Command"
+/>
+
+## Basic Variants
+
+<ComponentPreview
+  title="Alert Variants"
+  code={`import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
+
+// Basic alert (default variant)
+<Alert mode="light">
+  <AlertTitle>Default Alert</AlertTitle>
+  <AlertDescription>This is a default alert — check it out!</AlertDescription>
+</Alert>
+
+// Destructive variant
+<Alert mode="light" variant="destructive">
+  <AlertTitle>Destructive Alert</AlertTitle>
+  <AlertDescription>This is a destructive alert — be careful!</AlertDescription>
+</Alert>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+    <AlertWithMode>
+      <AlertTitleWithMode>Default Alert</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This is a default alert — check it out!</AlertDescriptionWithMode>
+    </AlertWithMode>
+    
+    <AlertWithMode variant="destructive">
+      <AlertTitleWithMode>Destructive Alert</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This is a destructive alert — be careful!</AlertDescriptionWithMode>
+    </AlertWithMode>
+  </div>
+</ComponentPreview>
+
+## With Icons
+
+The Alert component accepts any React component as an icon, giving you complete flexibility in React Native.
+
+<ComponentPreview
+  title="Alerts with Icons"
+  code={`import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
+import Icon from 'react-native-vector-icons/Feather';
+
+// Information alert with icon
+<Alert 
+  mode="light" 
+  icon={<Icon name="info" size={16} />}
+>
+  <AlertTitle>Information</AlertTitle>
+  <AlertDescription>This alert includes an info icon.</AlertDescription>
+</Alert>
+
+// Warning alert with icon
+<Alert 
+  mode="light" 
+  variant="destructive" 
+  icon={<Icon name="alert-triangle" size={16} />}
+>
+  <AlertTitle>Warning</AlertTitle>
+  <AlertDescription>This alert includes a warning icon.</AlertDescription>
+</Alert>
+
+// Success alert with icon
+<Alert 
+  mode="light" 
+  icon={<Icon name="check-circle" size={16} />}
+>
+  <AlertTitle>Success</AlertTitle>
+  <AlertDescription>Operation completed successfully.</AlertDescription>
+</Alert>
+
+// Error alert with icon
+<Alert 
+  mode="light" 
+  variant="destructive" 
+  icon={<Icon name="x-circle" size={16} />}
+>
+  <AlertTitle>Error</AlertTitle>
+  <AlertDescription>Something went wrong. Please try again.</AlertDescription>
+</Alert>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+    <AlertWithMode icon={<FiInfo size={16} />}>
+      <AlertTitleWithMode>Information</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This alert includes an info icon.</AlertDescriptionWithMode>
+    </AlertWithMode>
+    
+    <AlertWithMode variant="destructive" icon={<FiAlertTriangle size={16} />}>
+      <AlertTitleWithMode>Warning</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This destructive alert includes a warning icon.</AlertDescriptionWithMode>
+    </AlertWithMode>
+
+    <AlertWithMode icon={<FiCheckCircle size={16} />}>
+      <AlertTitleWithMode>Success</AlertTitleWithMode>
+      <AlertDescriptionWithMode>Operation completed successfully.</AlertDescriptionWithMode>
+    </AlertWithMode>
+
+    <AlertWithMode variant="destructive" icon={<FiXCircle size={16} />}>
+      <AlertTitleWithMode>Error</AlertTitleWithMode>
+      <AlertDescriptionWithMode>Something went wrong. Please try again.</AlertDescriptionWithMode>
+    </AlertWithMode>
+  </div>
+</ComponentPreview>
+
+## Custom Icon Rendering
+
+For more control over icon styling, you can use the renderIcon prop to create custom icon displays in React Native.
+
+<ComponentPreview
+  title="Custom Icon Alert"
+  code={`import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
+import Icon from 'react-native-vector-icons/Feather';
+import { View } from 'react-native';
+
+// Custom bell icon
+<Alert
+  mode="light"
+  renderIcon={({ size, color }) => (
+    <View style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center' 
+    }}>
+      <Icon name="bell" size={size} color={color} />
+    </View>
+  )}
+>
+  <AlertTitle>Custom Icon</AlertTitle>
+  <AlertDescription>This alert uses a custom icon renderer with Feather icons.</AlertDescription>
+</Alert>
+
+// Custom warning icon with background
+<Alert
+  mode="light"
+  variant="destructive"
+  renderIcon={({ size, color }) => (
+    <View style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      backgroundColor: color,
+      borderRadius: 50,
+      padding: 4
+    }}>
+      <Icon name="alert-triangle" size={size - 8} color="#fff" />
+    </View>
+  )}
+>
+  <AlertTitle>Custom Warning Icon</AlertTitle>
+  <AlertDescription>This alert uses a custom styled warning icon.</AlertDescription>
+</Alert>
+
+// Custom outlined icon
+<Alert
+  mode="light"
+  renderIcon={({ size, color }) => (
+    <View style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      borderWidth: 2,
+      borderColor: color,
+      borderRadius: 50,
+      padding: 4
+    }}>
+      <Icon name="info" size={size - 8} color={color} />
+    </View>
+  )}
+>
+  <AlertTitle>Outlined Icon</AlertTitle>
+  <AlertDescription>This alert uses an outlined icon style.</AlertDescription>
+</Alert>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+    <AlertWithMode
+      renderIcon={({ size, color }) => (
+        <div style={{ 
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <FiBell size={size} style={{ color }} />
+        </div>
+      )}
+    >
+      <AlertTitleWithMode>Custom Icon</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This alert uses a custom icon renderer with Feather icons.</AlertDescriptionWithMode>
+    </AlertWithMode>
+
+    <AlertWithMode
+      variant="destructive"
+      renderIcon={({ size, color }) => (
+        <div style={{ 
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: color,
+          borderRadius: '50%',
+          padding: '4px'
+        }}>
+          <FiAlertTriangle size={size - 8} style={{ color: '#fff' }} />
+        </div>
+      )}
+    >
+      <AlertTitleWithMode>Custom Warning Icon</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This alert uses a custom styled warning icon.</AlertDescriptionWithMode>
+    </AlertWithMode>
+
+    <AlertWithMode
+      renderIcon={({ size, color }) => (
+        <div style={{ 
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: `2px solid ${color}`,
+          borderRadius: '50%',
+          padding: '4px'
+        }}>
+          <FiInfo size={size - 8} style={{ color }} />
+        </div>
+      )}
+    >
+      <AlertTitleWithMode>Outlined Icon</AlertTitleWithMode>
+      <AlertDescriptionWithMode>This alert uses an outlined icon style.</AlertDescriptionWithMode>
+    </AlertWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="React Native Alert with Responsive Mode"
+  code={`import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
+import { useColorScheme } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+
+export function ErrorNotification({ error }) {
+  const colorScheme = useColorScheme();
+  
+  return (
+    <Alert 
+      variant="destructive"
+      icon={<Icon name="x-circle" size={16} />}
+      mode={colorScheme} // 'light' or 'dark' based on system preference
+    >
+      <AlertTitle>Error</AlertTitle>
+      <AlertDescription>{error.message}</AlertDescription>
+    </Alert>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Alert Component Props"
+  language="typescript"
+  code={`interface AlertProps {
+  variant?: 'default' | 'destructive';
+  className?: string;
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+  mode?: 'light' | 'dark';
+  renderIcon?: (props: IconProps) => React.ReactNode;
+}
+
+interface AlertTitleProps {
+  className?: string;
+  children: React.ReactNode;
+  mode?: 'light' | 'dark';
+}
+
+interface AlertDescriptionProps {
+  className?: string;
+  children: React.ReactNode;
+  mode?: 'light' | 'dark';
+}
+
+type IconProps = {
+  size: number;
+  color: string;
+};`}
+/>
