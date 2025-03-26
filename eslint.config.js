@@ -23,6 +23,7 @@ export default [
       '*.tsbuildinfo',
       'packages/cli/templates/**',
       'examples/**',
+      'docs/**',
     ],
   },
   // Configuration for JS config files (no TypeScript checking)

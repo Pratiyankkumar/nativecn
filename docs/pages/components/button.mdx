@@ -1,0 +1,146 @@
+# Button Component
+
+import Button from '../../components/ui/button'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const ButtonWithMode = (props) => {
+  const mode = useContext(PreviewModeContext);
+  return <Button mode={mode} {...props} />;
+}
+
+## Installation
+
+The Button component is a versatile UI element designed for user interactions.
+
+<ComponentCode 
+  language="bash"
+  code="npx nativecn add button"
+  title="Installation Command"
+/>
+
+## Basic Variants
+
+<ComponentPreview
+  title="Button Variants"
+  code={`// The mode prop will automatically be set to 'light' or 'dark' based on the preview container
+<Button mode="..." variant="default">Default Button</Button>
+<Button mode="..." variant="destructive">Destructive Button</Button>
+<Button mode="..." variant="outline">Outline Button</Button>
+<Button mode="..." variant="secondary">Secondary Button</Button>
+<Button mode="..." variant="ghost">Ghost Button</Button>
+<Button mode="..." variant="link">Link Button</Button>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+    <ButtonWithMode>Default Button</ButtonWithMode>
+    <ButtonWithMode variant="destructive">Destructive Button</ButtonWithMode>
+    <ButtonWithMode variant="outline">Outline Button</ButtonWithMode>
+    <ButtonWithMode variant="secondary">Secondary Button</ButtonWithMode>
+    <ButtonWithMode variant="ghost">Ghost Button</ButtonWithMode>
+    <ButtonWithMode variant="link">Link Button</ButtonWithMode>
+  </div>
+</ComponentPreview>
+
+## Different Sizes
+
+<ComponentPreview
+  title="Button Sizes"
+  code={`<Button mode="..." size="sm">Small</Button>
+<Button mode="..." size="default">Default</Button>
+<Button mode="..." size="lg">Large</Button>
+<Button mode="..." size="icon">+</Button>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+    <ButtonWithMode size="sm">Small</ButtonWithMode>
+    <ButtonWithMode size="default">Default</ButtonWithMode>
+    <ButtonWithMode size="lg">Large</ButtonWithMode>
+    <ButtonWithMode size="icon">+</ButtonWithMode>
+  </div>
+</ComponentPreview>
+
+## State Examples
+
+<ComponentPreview
+  title="Button States"
+  code={`<Button mode="..." disabled>Disabled Button</Button>
+<Button mode="..." variant="outline" disabled>Disabled Outline</Button>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+    <ButtonWithMode disabled>Disabled Button</ButtonWithMode>
+    <ButtonWithMode variant="outline" disabled>Disabled Outline</ButtonWithMode>
+  </div>
+</ComponentPreview>
+
+## With Icons
+
+<ComponentPreview
+  title="Buttons with Icons"
+  code={`<Button mode="..." className="w-10 h-10 flex items-center justify-center">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" svg>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 8v8M8 12h8" />
+  </svg>
+</Button>
+<Button mode="..." variant="outline" className="w-10 h-10 flex items-center justify-center">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" svg>
+    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+  </svg>
+</Button>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+    <ButtonWithMode className="w-10 h-10 flex items-center justify-center" mode='light'>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" svg>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 8v8M8 12h8" />
+      </svg>
+    </ButtonWithMode>
+    <ButtonWithMode variant="outline" className="w-10 h-10 flex items-center justify-center">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" svg>
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+      </svg>
+    </ButtonWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Basic Button Usage with Responsive Mode"
+  code={`import Button from '../components/ui/button';
+import { useColorScheme } from 'react-native';
+
+export function SubmitForm() {
+  // Automatically use the device's color scheme
+  const colorScheme = useColorScheme();
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+      <Button 
+        type="submit"
+        mode={colorScheme} // 'light' or 'dark' based on system preference
+      >
+        Submit Form
+      </Button>
+    </form>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Button Props"
+  language="typescript"
+  code={`interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  disabled?: boolean;
+  className?: string;
+  textClassName?: string;
+  mode?: 'light' | 'dark';  // Controls light/dark appearance
+  children: React.ReactNode;
+  asChild?: boolean;
+}`}
+/>

@@ -1,0 +1,51 @@
+import ComponentCode from '../components/ComponentCode'
+
+## Prerequisites
+
+Your React Native (or Expo) project must have NativeWind installed and setup. If you don't have it, you can refer to the [official documentation](https://www.nativewind.dev/getting-started/installation).
+
+## CLI Commands
+
+NativeCN provides a convenient CLI to help you get started quickly:
+
+### Installation
+
+<ComponentCode
+  language="bash"
+  code="npm install @nativecn/cli"
+  title="Installation Command"
+/>
+
+### init
+
+<ComponentCode
+  language="bash"
+  code="npx nativecn init"
+  title="Init Command"
+/>
+
+The `init` command:
+- Detects whether you have NativeWind installed
+- Creates a theme preset file (`nativecn-preset.js`)
+- Sets up required directory structure
+- Installs essential dependencies
+- Creates utility functions for theming
+
+### add
+
+<ComponentCode
+  language="bash"
+  code="npx nativecn add button card input"
+  title="Add Components Command"
+/>
+
+The `add` command:
+- Copies component code into your project
+- Automatically handles component dependencies
+- Installs any required npm packages
+- Creates an index file for easy importing
+- Works with options like `--dir` for custom location and `--overwrite` to replace existing components
+
+## Documentation
+
+Explore the documentation to learn more about available components, theming options, and how to integrate NativeCN into your projects.
