@@ -38,14 +38,22 @@ export default function ComponentPreview({
   };
 
   return (
-    <div className="border rounded-lg overflow-hidden mb-6 border-slate-200 dark:border-slate-700">
+    <div
+      className={`border rounded-lg overflow-hidden mb-6 border-slate-200 ${resolvedTheme === 'dark' ? 'border-slate-700' : ''}`}
+    >
       {title && (
-        <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex items-center justify-between">
-          <h3 className="font-medium text-sm text-slate-900 dark:text-slate-100">{title}</h3>
+        <div
+          className={`px-4 py-2 border-b ${resolvedTheme === 'dark' ? 'border-slate-700' : 'border-slate-200'} bg-slate-50 ${resolvedTheme === 'dark' ? 'bg-slate-800' : ''} flex items-center justify-between`}
+        >
+          <h3
+            className={`font-medium text-sm  ${resolvedTheme === 'dark' ? 'text-slate-100' : 'text-slate-900'}`}
+          >
+            {title}
+          </h3>
           <div className="flex gap-2">
             <button
               onClick={toggleTheme}
-              className="text-xs px-2 py-1 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors"
+              className={`text-xs px-2 py-1 rounded text-slate-600 ${resolvedTheme === 'dark' ? 'text-slate-400' : ''} hover:text-slate-900 ${resolvedTheme === 'dark' ? 'hover:text-slate-100' : ''} bg-slate-100 ${resolvedTheme === 'dark' ? 'bg-slate-800' : ''} hover:bg-slate-200 ${resolvedTheme === 'dark' ? 'hover:bg-slate-700' : ''} border border-slate-200 ${resolvedTheme === 'dark' ? 'border-slate-600' : ''} transition-colors`}
               aria-label={localTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {localTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
@@ -53,7 +61,7 @@ export default function ComponentPreview({
             {code && (
               <button
                 onClick={() => setShowCode(!showCode)}
-                className="text-xs px-2 py-1 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors"
+                className={`text-xs px-2 py-1 rounded text-slate-600 ${resolvedTheme === 'dark' ? 'text-slate-400' : ''} hover:text-slate-900 ${resolvedTheme === 'dark' ? 'hover:text-slate-100' : ''} bg-slate-100 ${resolvedTheme === 'dark' ? 'bg-slate-800' : ''} hover:bg-slate-200 ${resolvedTheme === 'dark' ? 'hover:bg-slate-700' : ''} border border-slate-200 ${resolvedTheme === 'dark' ? 'border-slate-600' : ''} transition-colors`}
                 aria-label={showCode ? 'Hide code' : 'Show code'}
               >
                 {showCode ? 'Hide Code' : 'Show Code'}
@@ -72,7 +80,9 @@ export default function ComponentPreview({
       </div>
 
       {code && showCode && (
-        <div className="border-t border-slate-200 dark:border-slate-700">
+        <div
+          className={`border-t border-slate-200 ${resolvedTheme === 'dark' ? 'border-slate-700' : ''}`}
+        >
           <ComponentCode code={code} />
         </div>
       )}

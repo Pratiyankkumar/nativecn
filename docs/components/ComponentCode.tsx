@@ -28,14 +28,18 @@ export default function ComponentCode({ code, language = 'tsx', title }: Compone
         </div>
       )}
       <div className="relative">
-        <pre className="rounded-lg overflow-auto p-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <code className={`text-sm language-${language} text-slate-800 dark:text-slate-200`}>
+        <pre
+          className={`rounded-lg overflow-auto p-4 ${isDarkMode ? 'bg-slate-800' : 'bg-slate-100'} ${isDarkMode ? 'border-slate-700' : 'border-slate-200'} border`}
+        >
+          <code
+            className={`text-sm language-${language} ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}
+          >
             {code}
           </code>
         </pre>
         <button
           onClick={handleCopy}
-          className="absolute top-2 right-2 p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors"
+          className={`absolute top-2 right-2 p-1.5 rounded-md ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} ${isDarkMode ? 'hover:text-slate-100' : 'hover:text-slate-900'} ${isDarkMode ? 'bg-slate-800' : 'bg-slate-100'} ${isDarkMode ? 'hover:bg-slate-700' : 'hover:bg-slate-200'} ${isDarkMode ? 'border-slate-600' : 'border-slate-200'} border transition-colors`}
           aria-label={copied ? 'Copied!' : 'Copy to clipboard'}
         >
           {copied ? (
