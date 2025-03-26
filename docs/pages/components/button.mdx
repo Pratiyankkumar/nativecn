@@ -6,7 +6,7 @@ import ComponentCode from '../../components/ComponentCode'
 import { useContext } from 'react'
 
 export const ButtonWithMode = (props) => {
-  const mode = useContext(PreviewModeContext);
+  const mode = useContext(PreviewModeContext) || 'light';
   return <Button mode={mode} {...props} />;
 }
 

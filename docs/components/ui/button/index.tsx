@@ -43,8 +43,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const containerClasses = cn(
       buttonClassNames.base,
       buttonClassNames[`size_${size}`],
-      buttonClassNames[`${mode}_variant_${variant}`],
-      isPressed && buttonClassNames.pressed[variant],
+      mode && variant && buttonClassNames[`${mode}_variant_${variant}`]
+        ? buttonClassNames[`${mode}_variant_${variant}`]
+        : '',
+      isPressed && buttonClassNames.pressed && variant && buttonClassNames.pressed[variant]
+        ? buttonClassNames.pressed[variant]
+        : '',
       disabled && buttonClassNames.disabled,
       className
     );
@@ -52,7 +56,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const textClasses = cn(
       textClassNames.base,
       textClassNames.size[size],
-      textClassNames[mode][variant],
+      mode && variant && textClassNames[mode] && textClassNames[mode][variant]
+        ? textClassNames[mode][variant]
+        : '',
       textClassName
     );
 
@@ -77,7 +83,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               return React.cloneElement(elementChild, {
                 ...elementChild.props,
                 size: isIconButton ? 20 : 16,
-                color: elementChild.props.color || iconColors[mode][variant],
+                color:
+                  elementChild.props.color ||
+                  (mode && variant && iconColors[mode] && iconColors[mode][variant]
+                    ? iconColors[mode][variant]
+                    : '#000000'),
                 className: cn(
                   isIconButton ? 'w-5 h-5' : 'w-4 h-4 shrink-0',
                   elementChild.props.className
