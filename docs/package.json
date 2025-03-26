@@ -2,7 +2,7 @@
   "name": "nativecn-docs",
   "version": "0.0.1",
   "description": "NativeCN docs",
-  "packageManager": "pnpm@8.15.8",
+  "packageManager": "pnpm@8.15.9+sha256.daa27a0b541bc635323ff96c2ded995467ff9fe6d69ff67021558aa9ad9dcc36",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
