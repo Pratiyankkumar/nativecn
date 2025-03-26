@@ -1,5 +1,6 @@
 {
   "accordion": "Accordion",
   "alert": "Alert",
-  "button": "Button"
+  "button": "Button",
+  "alert-dialog": "AlertDialog"
 }

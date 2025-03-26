@@ -1,0 +1,354 @@
+# AlertDialog Component
+
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '../../components/ui/alertdialog'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+import Button from '../../components/ui/button/index'
+
+export const AlertDialogWithMode = (props) => {
+    const mode = useContext(PreviewModeContext) || 'light';
+    return <AlertDialog mode={mode} {...props} />;
+}
+
+export const ButtonWithMode = (props) => {
+    const mode = useContext(PreviewModeContext) || 'light';
+    return <Button mode={mode} {...props} />;
+}
+
+## Installation
+
+The AlertDialog component is used to show important alerts that interrupt the user's flow and require a response.
+
+<ComponentCode 
+  language="bash"
+  code="npx nativecn add alertdialog"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic AlertDialog"
+  code={`import { 
+  AlertDialog,
+  AlertDialogTrigger, 
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel
+} from '../components/ui/alertdialog';
+
+<AlertDialog>
+  <AlertDialogTrigger>Open Dialog</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`}
+>
+  <AlertDialogWithMode>
+    <AlertDialogTrigger>Open Dialog</AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete your account
+          and remove your data from our servers.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction>Continue</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialogWithMode>
+</ComponentPreview>
+
+## Variants
+
+AlertDialog actions can use different ButtonWithMode variants to indicate different levels of severity.
+
+<ComponentPreview
+  title="AlertDialog Variants"
+  code={`import { 
+  AlertDialog,
+  AlertDialogTrigger, 
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel
+} from '../components/ui/alertdialog';
+
+// Destructive action
+<AlertDialog>
+  <AlertDialogTrigger>Delete Account</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete Account</AlertDialogTitle>
+      <AlertDialogDescription>
+        Are you sure you want to delete your account? This action cannot be undone.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+// Secondary action
+<AlertDialog>
+  <AlertDialogTrigger>Archive Post</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Archive Post</AlertDialogTitle>
+      <AlertDialogDescription>
+        This post will be archived and hidden from your profile.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction variant="secondary">Archive</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`}
+>
+  <div style={{ display: 'flex', gap: '16px' }}>
+    <AlertDialogWithMode>
+      <AlertDialogTrigger>Delete Account</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Account</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete your account? This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialogWithMode>
+
+    <AlertDialogWithMode>
+      <AlertDialogTrigger>Archive Post</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Archive Post</AlertDialogTitle>
+          <AlertDialogDescription>
+            This post will be archived and hidden from your profile.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="secondary">Archive</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialogWithMode>
+  </div>
+</ComponentPreview>
+
+## Custom Trigger
+
+The AlertDialog can be triggered by any component using the asChild prop.
+
+<ComponentPreview
+  title="Custom Trigger"
+  code={`import { 
+  AlertDialog,
+  AlertDialogTrigger, 
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel
+} from '../components/ui/alertdialog';
+import Button from '../components/ui/button';
+
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button mode={mode} variant="primary">
+      Delete File
+    </Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete File</AlertDialogTitle>
+      <AlertDialogDescription>
+        Are you sure you want to delete this file? This action cannot be undone.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`}
+>
+  <AlertDialogWithMode>
+    <AlertDialogTrigger asChild>
+      <ButtonWithMode>
+        Delete File
+      </ButtonWithMode>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Delete File</AlertDialogTitle>
+        <AlertDialogDescription>
+          Are you sure you want to delete this file? This action cannot be undone.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialogWithMode>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Controlled AlertDialog Example"
+  code={`import React, { useState } from 'react';
+import { View, Alert } from 'react-native';
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from '../components/ui/alertdialog';
+
+export function PhotoDeletionDialog() {
+  const [open, setOpen] = useState(false);
+  
+  const handleDelete = async () => {
+    try {
+      // Simulate photo deletion
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show success message using React Native Alert
+      Alert.alert(
+        "Success",
+        "Photo deleted successfully",
+        [{ text: "OK" }]
+      );
+      
+      setOpen(false);
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "Failed to delete photo. Please try again.",
+        [{ text: "OK" }]
+      );
+    }
+  };
+  
+  return (
+    <View style={{ padding: 16 }}>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogTrigger>Delete Photo</AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Photo</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete this photo from your device and cloud storage.
+              Photos cannot be recovered once deleted.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep Photo</AlertDialogCancel>
+            <AlertDialogAction 
+              variant="destructive"
+              onClick={handleDelete}
+            >
+              Delete Photo
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </View>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="AlertDialog Component Props"
+  language="typescript"
+  code={`interface AlertDialogProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  mode?: 'light' | 'dark';
+  children: React.ReactNode;
+}
+
+interface AlertDialogTriggerProps {
+  className?: string;
+  children: React.ReactNode;
+  asChild?: boolean;
+}
+
+interface AlertDialogContentProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+interface AlertDialogHeaderProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+interface AlertDialogFooterProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+interface AlertDialogTitleProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+interface AlertDialogDescriptionProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+interface AlertDialogActionProps {
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+}
+
+interface AlertDialogCancelProps {
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+}`}
+/>
