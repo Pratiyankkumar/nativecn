@@ -1,0 +1,264 @@
+# Avatar Component
+
+import { Avatar, AvatarImage, AvatarFallback } from '../../components/ui/avatar'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const AvatarWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Avatar mode={mode} {...props} />;
+}
+
+export const AvatarImageWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <AvatarImage mode={mode} {...props} />;
+}
+
+export const AvatarFallbackWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <AvatarFallback mode={mode} {...props} />;
+}
+
+## Installation
+
+The Avatar component is used to display user profile pictures with fallback support.
+
+<ComponentCode 
+  language="bash"
+  code="npx nativecn add avatar"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic Avatar"
+  code={`import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
+
+<Avatar mode="light">
+  <AvatarImage 
+    source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+    alt="@tailwiinder" 
+    mode="light"
+  />
+  <AvatarFallback mode="light">UN</AvatarFallback>
+</Avatar>`}
+>
+  <AvatarWithMode>
+    <AvatarImageWithMode 
+      source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+      alt="@tailwiinder" 
+    />
+    <AvatarFallbackWithMode>UN</AvatarFallbackWithMode>
+  </AvatarWithMode>
+</ComponentPreview>
+
+## Sizes
+
+The Avatar component comes in three predefined sizes.
+
+<ComponentPreview
+  title="Avatar Sizes"
+  code={`import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
+
+// Small Avatar
+<Avatar size="sm" mode="light">
+  <AvatarImage 
+    source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+    alt="@tailwiinder"
+    mode="light" 
+  />
+  <AvatarFallback mode="light">SM</AvatarFallback>
+</Avatar>
+
+// Medium Avatar (default)
+<Avatar size="md" mode="light">
+  <AvatarImage 
+    source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+    alt="@tailwiinder"
+    mode="light" 
+  />
+  <AvatarFallback mode="light">MD</AvatarFallback>
+</Avatar>
+
+// Large Avatar
+<Avatar size="lg" mode="light">
+  <AvatarImage 
+    source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+    alt="@tailwiinder"
+    mode="light" 
+  />
+  <AvatarFallback mode="light">LG</AvatarFallback>
+</Avatar>`}
+>
+  <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+    <AvatarWithMode size="sm">
+      <AvatarImageWithMode 
+        source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+        alt="@tailwiinder" 
+      />
+      <AvatarFallbackWithMode>SM</AvatarFallbackWithMode>
+    </AvatarWithMode>
+
+    <AvatarWithMode size="md">
+      <AvatarImageWithMode 
+        source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+        alt="@tailwiinder" 
+      />
+      <AvatarFallbackWithMode>MD</AvatarFallbackWithMode>
+    </AvatarWithMode>
+
+    <AvatarWithMode size="lg">
+      <AvatarImageWithMode 
+        source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+        alt="@tailwiinder" 
+      />
+      <AvatarFallbackWithMode>LG</AvatarFallbackWithMode>
+    </AvatarWithMode>
+  </div>
+</ComponentPreview>
+
+## Fallback States
+
+The Avatar component handles various fallback states gracefully.
+
+<ComponentPreview
+  title="Avatar Fallbacks"
+  code={`import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
+
+// With Image
+<Avatar mode="light">
+  <AvatarImage 
+    source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+    alt="@tailwiinder"
+    mode="light" 
+  />
+  <AvatarFallback mode="light">JD</AvatarFallback>
+</Avatar>
+
+// With Invalid Image (shows fallback)
+<Avatar mode="light">
+  <AvatarImage 
+    source="invalid-image-url.jpg" 
+    alt="@tailwiinder"
+    mode="light" 
+  />
+  <AvatarFallback hasImageError={true} mode="light">JD</AvatarFallback>
+</Avatar>
+
+// Fallback Only
+<Avatar mode="light">
+  <AvatarFallback standalone={true} mode="light">JD</AvatarFallback>
+</Avatar>
+
+// Delayed Fallback
+<Avatar mode="light">
+  <AvatarImage 
+    source="invalid-image-url.jpg" 
+    alt="@tailwiinder"
+    mode="light" 
+  />
+  <AvatarFallback delayMs={600} hasImageError={true} mode="light">JD</AvatarFallback>
+</Avatar>`}
+>
+  <div style={{ display: 'flex', gap: '16px' }}>
+    <AvatarWithMode>
+      <AvatarImageWithMode 
+        source="https://avatars.githubusercontent.com/u/157279520?v=4" 
+        alt="@tailwiinder" 
+      />
+      <AvatarFallbackWithMode>JD</AvatarFallbackWithMode>
+    </AvatarWithMode>
+
+    <AvatarWithMode>
+      <AvatarImageWithMode 
+        source="invalid-image-url.jpg" 
+        alt="@tailwiinder" 
+      />
+      <AvatarFallbackWithMode hasImageError={true}>JD</AvatarFallbackWithMode>
+    </AvatarWithMode>
+
+    <AvatarWithMode>
+      <AvatarFallbackWithMode standalone={true}>JD</AvatarFallbackWithMode>
+    </AvatarWithMode>
+
+    <AvatarWithMode>
+      <AvatarImageWithMode 
+        source="invalid-image-url.jpg" 
+        alt="@tailwiinder" 
+      />
+      <AvatarFallbackWithMode delayMs={600} hasImageError={true}>JD</AvatarFallbackWithMode>
+    </AvatarWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="React Native Avatar with Error Handling"
+  code={`import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
+import { useState } from 'react';
+import { useColorScheme } from 'react-native';
+
+export function UserAvatar({ imageUrl, username }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const colorScheme = useColorScheme(); // 'light' or 'dark'
+  const initials = username
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase();
+    
+  return (
+    <Avatar size="md" mode={colorScheme}>
+      <AvatarImage
+        source={imageUrl}
+        alt={username}
+        onLoadingStatusChange={setIsLoading}
+        mode={colorScheme}
+      />
+      <AvatarFallback 
+        delayMs={600}
+        isImageLoading={isLoading}
+        mode={colorScheme}
+      >
+        {initials}
+      </AvatarFallback>
+    </Avatar>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Avatar Component Props"
+  language="typescript"
+  code={`interface AvatarProps {
+  className?: string;
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+  size?: 'sm' | 'md' | 'lg';
+  mode?: 'light' | 'dark'; // Controls light/dark appearance
+}
+
+interface AvatarImageProps {
+  className?: string;
+  source: string;
+  alt?: string;
+  onLoadingStatusChange?: (isLoading: boolean) => void;
+  onError?: () => void;
+  mode?: 'light' | 'dark'; // Controls light/dark appearance
+}
+
+interface AvatarFallbackProps {
+  className?: string;
+  delayMs?: number;
+  children?: React.ReactNode;
+  isImageLoading?: boolean;
+  hasImageError?: boolean;
+  standalone?: boolean;
+  mode?: 'light' | 'dark'; // Controls light/dark appearance
+}`}
+/>
