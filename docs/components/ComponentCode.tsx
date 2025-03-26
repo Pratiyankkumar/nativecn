@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTheme } from 'nextra-theme-docs';
 
 interface ComponentCodeProps {
   code: string;
@@ -8,6 +9,8 @@ interface ComponentCodeProps {
 
 export default function ComponentCode({ code, language = 'tsx', title }: ComponentCodeProps) {
   const [copied, setCopied] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === 'dark';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -17,14 +20,22 @@ export default function ComponentCode({ code, language = 'tsx', title }: Compone
 
   return (
     <div className="mt-4">
-      {title && <div className="text-sm font-medium mb-2">{title}</div>}
+      {title && (
+        <div
+          className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-slate-100' : 'text-slate-900'}`}
+        >
+          {title}
+        </div>
+      )}
       <div className="relative">
-        <pre className="rounded-lg overflow-auto p-4 bg-slate-100 dark:bg-slate-800">
-          <code className={`text-sm language-${language}`}>{code}</code>
+        <pre className="rounded-lg overflow-auto p-4 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <code className={`text-sm language-${language} text-slate-800 dark:text-slate-200`}>
+            {code}
+          </code>
         </pre>
         <button
           onClick={handleCopy}
-          className="absolute top-2 right-2 p-1.5 rounded-md text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+          className="absolute top-2 right-2 p-1.5 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors"
           aria-label={copied ? 'Copied!' : 'Copy to clipboard'}
         >
           {copied ? (

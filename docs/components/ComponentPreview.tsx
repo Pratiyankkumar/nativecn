@@ -1,7 +1,8 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import ComponentCode from './ComponentCode';
+import { useTheme } from 'nextra-theme-docs';
 
-// Create a context for the preview mode
+// context for the preview mode
 export const PreviewModeContext = createContext<'light' | 'dark'>('light');
 
 interface ComponentPreviewProps {
@@ -17,47 +18,61 @@ export default function ComponentPreview({
   code,
   title,
 }: ComponentPreviewProps) {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [showCode, setShowCode] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const [showCode, setShowCode] = React.useState(false);
+  const [useGlobalTheme, setUseGlobalTheme] = React.useState(true);
+  const [localTheme, setLocalTheme] = React.useState<'light' | 'dark'>(
+    resolvedTheme as 'light' | 'dark'
+  );
 
-  const currentMode = isDarkMode ? 'dark' : 'light';
+  // Sync local theme with global theme when using global theme
+  useEffect(() => {
+    if (useGlobalTheme) {
+      setLocalTheme(resolvedTheme as 'light' | 'dark');
+    }
+  }, [resolvedTheme, useGlobalTheme]);
+
+  const toggleTheme = () => {
+    setUseGlobalTheme(false);
+    setLocalTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   return (
-    <div className="border rounded-lg overflow-hidden mb-6">
+    <div className="border rounded-lg overflow-hidden mb-6 border-slate-200 dark:border-slate-700">
       {title && (
-        <div className="px-4 py-2 border-b bg-slate-50 dark:bg-slate-900 flex items-center justify-between">
-          <h3 className="font-medium text-sm">{title}</h3>
+        <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex items-center justify-between">
+          <h3 className="font-medium text-sm text-slate-900 dark:text-slate-100">{title}</h3>
           <div className="flex gap-2">
+            <button
+              onClick={toggleTheme}
+              className="text-xs px-2 py-1 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors"
+              aria-label={localTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {localTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            </button>
             {code && (
               <button
                 onClick={() => setShowCode(!showCode)}
-                className="text-xs px-2 py-1 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700"
+                className="text-xs px-2 py-1 rounded text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 transition-colors"
                 aria-label={showCode ? 'Hide code' : 'Show code'}
               >
                 {showCode ? 'Hide Code' : 'Show Code'}
               </button>
             )}
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="text-xs px-2 py-1 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700"
-              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {isDarkMode ? 'Light' : 'Dark'}
-            </button>
           </div>
         </div>
       )}
 
-      <div className={`p-4 ${isDarkMode ? 'bg-slate-900' : 'bg-slate-50'} ${className}`}>
+      <div className={`p-4 ${localTheme === 'dark' ? 'bg-slate-900' : 'bg-slate-50'} ${className}`}>
         <div
-          className={`flex justify-center items-center p-4 rounded-lg ${isDarkMode ? 'bg-black' : 'bg-white'}`}
+          className={`flex justify-center items-center p-4 rounded-lg ${localTheme === 'dark' ? 'bg-black' : 'bg-white'}`}
         >
-          <PreviewModeContext.Provider value={currentMode}>{children}</PreviewModeContext.Provider>
+          <PreviewModeContext.Provider value={localTheme}>{children}</PreviewModeContext.Provider>
         </div>
       </div>
 
       {code && showCode && (
-        <div className="border-t">
+        <div className="border-t border-slate-200 dark:border-slate-700">
           <ComponentCode code={code} />
         </div>
       )}
