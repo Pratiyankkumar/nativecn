@@ -47,7 +47,7 @@ assignees: ''
   - [ ] `packages/cli/templates/<component-name>/styles.ts.template`
 - [ ] Update CLI dependencies if needed
 - [ ] Test component addition via CLI
-  - [ ] `npx nativecn add <component-name>`
+  - [ ] `npx @nativecn/cli add <component-name>`
 
 ## Documentation Requirements
 

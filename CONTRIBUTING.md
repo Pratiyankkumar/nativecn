@@ -55,8 +55,8 @@ npm run build
 npm link
 
 # Now you can run the CLI locally
-npx nativecn init
-npx nativecn add button
+npx @nativecn/cli init
+npx @nativecn/cli add button
 ```
 
 5. **Alternatively, link individual packages**
@@ -184,7 +184,7 @@ The recommended workflow is to test your components in our provided example apps
 
 4. Now you can test your new component:
    ```bash
-   npx nativecn add your-new-component
+   npx @nativecn/cli add your-new-component
    ```
 
 #### Method 2: Using npm link (Easier Workflow)
@@ -212,7 +212,7 @@ The recommended workflow is to test your components in our provided example apps
 4. Test your new component:
 
    ```bash
-   npx nativecn add your-new-component
+   npx @nativecn/cli add your-new-component
    ```
 
 5. When finished testing, unlink the package:
@@ -238,7 +238,7 @@ The recommended workflow is to test your components in our provided example apps
 
 3. Test your new component:
    ```bash
-   npx nativecn add your-new-component
+   npx @nativecn/cli add your-new-component
    ```
 
 Remember to rebuild the CLI package after making changes to component templates!

@@ -28,13 +28,13 @@ npm i ../../../packages/cli
 Then, run the following command to test a component:
 
 ```bash
-npx nativecn add <component-name>
+npx @nativecn/cli add <component-name>
 ```
 
 For example, to test the Button component, run the following command:
 
 ```bash
-npx nativecn add button
+npx @nativecn/cli add button
 ```
 
 This will add the Button component to the app, after which you can run the app and create a test tsx file to see the component in action.

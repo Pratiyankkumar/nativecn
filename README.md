@@ -24,7 +24,7 @@ npx @nativecn/cli [command]
 ### Initialize NativeCN in your project
 
 ```bash
-npx nativecn init
+npx @nativecn/cli init
 ```
 
 The init command will:
@@ -38,7 +38,7 @@ The init command will:
 ### Add components to your project
 
 ```bash
-npx nativecn add button
+npx @nativecn/cli add button
 ```
 
 Options:
@@ -48,7 +48,7 @@ Options:
 
 ### Generate theme preset file (optional)
 
-This is asked to be done automatically when you run `npx nativecn init`. Use this if you want a more fine-grained control over the preset file.
+This is asked to be done automatically when you run `npx @nativecn/cli init`. Use this if you want a more fine-grained control over the preset file.
 
 ```bash
 npx nativecn preset
@@ -103,8 +103,8 @@ npm run build
 npm link
 
 # Now you can run the CLI
-npx nativecn init
-npx nativecn add button
+npx @nativecn/cli init
+npx @nativecn/cli add button
 ```
 
 ### Alternatively, you can link individual packages
@@ -114,8 +114,8 @@ npx nativecn add button
 npm link @nativecn/cli @nativecn/components
 
 # Run commands
-npx nativecn init
-npx nativecn add button
+npx @nativecn/cli init
+npx @nativecn/cli add button
 ```
 
 ## Contributing

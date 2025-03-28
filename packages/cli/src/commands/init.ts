@@ -164,7 +164,7 @@ export async function initCommand(options: InitOptions = {}) {
   console.log();
   console.log('Next steps:');
   console.log('  1. Add components to your project:');
-  console.log('     npx nativecn add button card input');
+  console.log('     npx @nativecn/cli add button card input');
   console.log();
   console.log('  2. Import and use components in your app:');
   console.log('     import Button from "./components/ui/button";');

@@ -19,7 +19,7 @@ npx @nativecn/cli [command]
 ### Initialize NativeCN in your project
 
 ```bash
-npx nativecn init
+npx @nativecn/cli init
 ```
 
 The init command will:
@@ -33,7 +33,7 @@ The init command will:
 ### Add components to your project
 
 ```bash
-npx nativecn add button input card
+npx @nativecn/cli add button input card
 ```
 
 Options:
