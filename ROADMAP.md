@@ -10,57 +10,70 @@ NativeCN is in early development with a foundation of core components and infras
 
 ### Components
 
+#### Essential UI Primitives
+
+- [x] [Button component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/button)
+- [ ] Checkbox component
+- [ ] Input component
+- [ ] Label component
+- [ ] Radio Group component
+- [ ] Select component
+- [ ] Separator component
+- [ ] Switch component
+- [ ] Textarea component
+- [ ] Tooltip component
+
+#### Common Components
+
 - [x] [Accordion component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/accordion)
 - [x] [Alert component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/alert)
-- [x] [Alert Dialog component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/alertdialog)
-- [x] [Aspect Ratio component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/aspectratio)
 - [x] [Avatar component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/avatar)
 - [x] [Badge component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/badge)
-- [x] [Breadcrumb component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/breadcrumb)
-- [x] [Button component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/button)
-- [ ] Calendar component
 - [x] [Card component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/card)
+- [ ] Dialog component
+- [ ] Progress component
+- [x] [Skeleton component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/skeleton)
+- [ ] Tabs component
+- [ ] Toast component
+- [ ] Toggle component
+- [ ] Toggle Group component
+
+#### Navigation & Structure
+
+- [x] [Breadcrumb component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/breadcrumb)
+- [ ] Dropdown Menu component
+- [ ] Menubar component
+- [ ] Navigation Menu component
+- [ ] Pagination component
+- [x] [Aspect Ratio component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/aspectratio)
+- [ ] Scroll Area component
+- [ ] Sidebar component
+
+#### Advanced Interaction
+
 - [x] [Carousel component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/carousel)
-- [ ] Checkbox component
 - [ ] Collapsible component
 - [ ] Combobox component
 - [ ] Command component
 - [ ] Context Menu component
-- [ ] Data Table component
-- [ ] Dialog component
 - [ ] Drawer component
-- [ ] Dropdown Menu component
 - [ ] Hover Card component
-- [ ] Input component
-- [x] [Input OTP component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/input-otp)
-- [ ] Label component
-- [ ] Menubar component
-- [ ] Navigation Menu component
-- [ ] Pagination component
 - [ ] Popover component
-- [ ] Progress component
-- [ ] Radio Group component
 - [ ] Resizable component
-- [ ] Scroll Area component
-- [ ] Select component
-- [ ] Separator component
 - [ ] Sheet component
-- [ ] Sidebar component
-- [x] [Skeleton component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/skeleton)
-- [ ] Slider component
+
+#### Data & Specialized Components
+
+- [x] [Alert Dialog component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/alertdialog)
+- [ ] Calendar component
+- [ ] Data Table component
+- [x] [Input OTP component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/input-otp)
 - [ ] Sonner component
-- [ ] Switch component
 - [ ] Table component
-- [ ] Tabs component
-- [ ] Textarea component
-- [ ] Toast component
-- [ ] Toggle component
-- [ ] Toggle Group component
-- [ ] Tooltip component
 
 ### Developer Experience
 
-- [ ] Create a documentation website
+- [x] Create a documentation website - [click here to view](https://nativecn.xyz)
 - [ ] Add a detailed documentation for each component
 - [ ] Enhance error messages and debugging
 
