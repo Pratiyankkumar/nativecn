@@ -13,6 +13,6 @@ export const avatarImageClassNames = {
 };
 
 export const avatarFallbackClassNames = {
-  base: 'absolute inset-0 flex items-center justify-center rounded-full bg-muted dark:bg-gray-800',
-  text: 'text-sm font-medium dark:text-gray-200',
+  base: 'absolute inset-0 flex items-center justify-center rounded-full bg-muted',
+  text: 'text-sm font-medium',
 };

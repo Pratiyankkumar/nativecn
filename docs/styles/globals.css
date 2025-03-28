@@ -1,3 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/* Define the icon font face for Feather icons */
+@font-face {
+  font-family: 'Feather';
+  src: url('/fonts/Feather.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

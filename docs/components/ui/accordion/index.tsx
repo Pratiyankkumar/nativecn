@@ -1,6 +1,5 @@
-'use client';
-
 import React, { createContext, useContext, useRef, useState } from 'react';
+import { Animated, Pressable, Text, View } from 'react-native';
 import { cn } from '../../../lib/utils';
 
 // Import styles
@@ -28,37 +27,24 @@ type AccordionItemContextValue = {
   mode: 'light' | 'dark';
 };
 
-// Create contexts with default values
+// Create contexts
 const AccordionContext = createContext<AccordionContextValue | null>(null);
 const AccordionItemContext = createContext<AccordionItemContextValue | null>(null);
 
-// Hook to use Accordion context with safe fallbacks
+// Hook to use Accordion context
 const useAccordion = () => {
   const context = useContext(AccordionContext);
-  // Provide fallback values if context is not available
   if (!context) {
-    return {
-      value: [],
-      onValueChange: () => {},
-      type: 'single' as const,
-      collapsible: false,
-      mode: 'light' as const,
-    };
+    throw new Error('useAccordion must be used within an Accordion');
   }
   return context;
 };
 
-// Hook to use AccordionItem context with safe fallbacks
+// Hook to use AccordionItem context
 const useAccordionItem = () => {
   const context = useContext(AccordionItemContext);
-  // Provide fallback values if context is not available
   if (!context) {
-    return {
-      id: '',
-      isOpen: false,
-      toggleItem: () => {},
-      mode: 'light' as const,
-    };
+    throw new Error('useAccordionItem must be used within an AccordionItem');
   }
   return context;
 };
@@ -70,47 +56,48 @@ const ChevronDown: React.FC<{
   className?: string;
 }> = ({ size = 16, color = '#000000', className = '' }) => {
   // Create a proper chevron using two lines meeting at a point
-  const thickness = Math.max(1.5, Math.floor((size || 16) / 14));
-  const lineLength = (size || 16) * 0.35;
+  const thickness = Math.max(1.5, Math.floor(size / 14));
+  const lineLength = size * 0.35;
   const angle = 35; // degrees for proper chevron appearance
 
   return (
-    <div
-      className={cn('flex items-center justify-center', className || '')}
-      style={{ width: size || 16, height: size || 16 }}
+    <View
+      className={cn('items-center justify-center', className)}
+      style={{ width: size, height: size }}
     >
-      <div
+      <View
         style={{
-          width: size || 16,
-          height: (size || 16) * 0.5,
+          width: size,
+          height: size * 0.5,
+          justifyContent: 'center',
+          alignItems: 'center',
           position: 'relative',
         }}
-        className="flex justify-center items-center"
       >
         {/* Left side of chevron */}
-        <div
+        <View
           style={{
             position: 'absolute',
             width: lineLength,
             height: thickness,
-            backgroundColor: color || '#000000',
+            backgroundColor: color,
             borderRadius: thickness / 2,
-            transform: `translateX(${-lineLength * 0.3}px) rotate(${angle}deg)`,
+            transform: [{ translateX: -lineLength * 0.3 }, { rotate: `${angle}deg` }],
           }}
         />
         {/* Right side of chevron */}
-        <div
+        <View
           style={{
             position: 'absolute',
             width: lineLength,
             height: thickness,
-            backgroundColor: color || '#000000',
+            backgroundColor: color,
             borderRadius: thickness / 2,
-            transform: `translateX(${lineLength * 0.3}px) rotate(-${angle}deg)`,
+            transform: [{ translateX: lineLength * 0.3 }, { rotate: `-${angle}deg` }],
           }}
         />
-      </div>
-    </div>
+      </View>
+    </View>
   );
 };
 
@@ -136,7 +123,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   mode = 'light',
   children,
 }) => {
-  const [stateValue, setStateValue] = useState<string[]>(defaultValue || []);
+  const [stateValue, setStateValue] = useState<string[]>(defaultValue);
 
   const handleValueChange = (newValue: string[]) => {
     if (onValueChange) {
@@ -153,12 +140,12 @@ export const Accordion: React.FC<AccordionProps> = ({
       value={{
         value: accordionValue,
         onValueChange: handleValueChange,
-        type: type || 'single',
-        collapsible: collapsible || false,
-        mode: mode || 'light',
+        type,
+        collapsible,
+        mode,
       }}
     >
-      <div className={cn(accordionClassNames?.base || '', className || '')}>{children}</div>
+      <View className={cn(accordionClassNames.base, className)}>{children}</View>
     </AccordionContext.Provider>
   );
 };
@@ -171,13 +158,7 @@ interface AccordionItemProps {
 }
 
 export const AccordionItem: React.FC<AccordionItemProps> = ({ id, className = '', children }) => {
-  const {
-    value = [],
-    onValueChange = () => {},
-    type = 'single',
-    collapsible = false,
-    mode = 'light',
-  } = useAccordion();
+  const { value, onValueChange, type, collapsible, mode = 'light' } = useAccordion();
   const isDark = mode === 'dark';
 
   const isOpen = value.includes(id);
@@ -202,17 +183,15 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ id, className = ''
 
   return (
     <AccordionItemContext.Provider value={{ id, isOpen, toggleItem, mode }}>
-      <div
+      <View
         className={cn(
-          accordionItemClassNames?.base || '',
-          isDark
-            ? accordionItemClassNames?.theme?.dark || ''
-            : accordionItemClassNames?.theme?.light || '',
-          className || ''
+          accordionItemClassNames.base,
+          isDark ? accordionItemClassNames.theme.dark : accordionItemClassNames.theme.light,
+          className
         )}
       >
         {children}
-      </div>
+      </View>
     </AccordionItemContext.Provider>
   );
 };
@@ -229,28 +208,55 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
   textClassName = '',
   children,
 }) => {
-  const { isOpen = false, toggleItem = () => {}, mode = 'light' } = useAccordionItem();
+  const { isOpen, toggleItem, mode } = useAccordionItem();
   const isDark = mode === 'dark';
+
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.timing(rotateAnim, {
+      toValue: isOpen ? 1 : 0,
+      duration: animationConfigs.rotation.duration,
+      easing: animationConfigs.rotation.easing,
+      useNativeDriver: animationConfigs.rotation.useNativeDriver,
+    }).start();
+  }, [isOpen]);
+
+  const rotation = rotateAnim.interpolate({
+    inputRange: animationConfigs.rotation.inputRange,
+    outputRange: animationConfigs.rotation.outputRange,
+  });
 
   // Helper function to render trigger content
   const renderTriggerContent = (content: React.ReactNode): React.ReactNode => {
     if (typeof content === 'string' || typeof content === 'number') {
       return (
-        <span
+        <Text
           className={cn(
-            accordionTriggerClassNames?.text?.base || '',
+            accordionTriggerClassNames.text.base,
             isDark
-              ? accordionTriggerClassNames?.text?.theme?.dark || ''
-              : accordionTriggerClassNames?.text?.theme?.light || '',
-            textClassName || ''
+              ? accordionTriggerClassNames.text.theme.dark
+              : accordionTriggerClassNames.text.theme.light,
+            textClassName
           )}
         >
           {content}
-        </span>
+        </Text>
       );
     }
 
     if (React.isValidElement(content)) {
+      const elementContent = content as React.ReactElement<any>;
+      // If it's already a Text component or has no children, return as is
+      if (
+        (elementContent.type as any) === Text ||
+        (elementContent.props && !elementContent.props.children)
+      ) {
+        return content;
+      }
+
+      // For other components that might contain text, we keep them as is
+      // Most custom components should handle their own text wrapping
       return content;
     }
 
@@ -264,32 +270,23 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
   };
 
   return (
-    <button
-      className={cn(
-        accordionTriggerClassNames?.base || '',
-        'flex items-center justify-between w-full',
-        className || ''
-      )}
-      onClick={toggleItem}
-      type="button"
+    <Pressable
+      className={cn(accordionTriggerClassNames.base, className)}
+      onPress={toggleItem}
+      android_ripple={{ color: 'rgba(0, 0, 0, 0.1)' }}
     >
       {renderTriggerContent(children)}
-      <div
-        className={cn(
-          'transform transition-transform duration-200',
-          isOpen ? 'rotate-180' : 'rotate-0'
-        )}
-      >
+      <Animated.View style={{ transform: [{ rotate: rotation }] }}>
         <ChevronDown
           size={16}
           color={
-            isDark && accordionTriggerClassNames?.icon?.color
-              ? accordionTriggerClassNames?.icon?.color?.dark || '#ffffff'
-              : accordionTriggerClassNames?.icon?.color?.light || '#000000'
+            isDark
+              ? accordionTriggerClassNames.icon.color.dark
+              : accordionTriggerClassNames.icon.color.light
           }
         />
-      </div>
-    </button>
+      </Animated.View>
+    </Pressable>
   );
 };
 
@@ -307,29 +304,41 @@ export const AccordionContent: React.FC<AccordionContentProps> = ({
   textClassName = '',
   children,
 }) => {
-  const { isOpen = false, mode = 'light' } = useAccordionItem();
+  const { isOpen, mode } = useAccordionItem();
   const isDark = mode === 'dark';
 
-  // Helper function to ensure all text is wrapped in span elements
+  const heightAnim = useRef(new Animated.Value(0)).current;
+  const [contentHeight, setContentHeight] = useState(0);
+
+  // Helper function to ensure all text is wrapped in Text components
   const renderContent = (content: React.ReactNode): React.ReactNode => {
     if (typeof content === 'string' || typeof content === 'number') {
       return (
-        <span
+        <Text
           className={cn(
-            accordionContentClassNames?.text?.base || '',
+            accordionContentClassNames.text.base,
             isDark
-              ? accordionContentClassNames?.text?.theme?.dark || ''
-              : accordionContentClassNames?.text?.theme?.light || '',
-            textClassName || ''
+              ? accordionContentClassNames.text.theme.dark
+              : accordionContentClassNames.text.theme.light,
+            textClassName
           )}
         >
           {content}
-        </span>
+        </Text>
       );
     }
 
     if (React.isValidElement(content)) {
       const elementContent = content as React.ReactElement<any>;
+      // If it's already a Text component or has no children, return as is
+      if (
+        (elementContent.type as any) === Text ||
+        (elementContent.props && !elementContent.props.children)
+      ) {
+        return content;
+      }
+
+      // For other elements with children, recursively process their children
       if (elementContent.props && elementContent.props.children) {
         return React.cloneElement(
           elementContent,
@@ -340,6 +349,7 @@ export const AccordionContent: React.FC<AccordionContentProps> = ({
           )
         );
       }
+
       return content;
     }
 
@@ -352,19 +362,60 @@ export const AccordionContent: React.FC<AccordionContentProps> = ({
     return content;
   };
 
+  React.useEffect(() => {
+    Animated.timing(heightAnim, {
+      toValue: isOpen ? 1 : 0,
+      duration: animationConfigs.height.duration,
+      easing: animationConfigs.height.easing,
+      useNativeDriver: animationConfigs.height.useNativeDriver,
+    }).start();
+  }, [isOpen, contentHeight]);
+
+  const animatedHeight = heightAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, contentHeight],
+  });
+
+  const animatedOpacity = heightAnim.interpolate({
+    inputRange: animationConfigs.opacity.inputRange,
+    outputRange: animationConfigs.opacity.outputRange,
+  });
+
+  const handleLayout = event => {
+    const { height } = event.nativeEvent.layout;
+    if (height > 0 && height !== contentHeight) {
+      setContentHeight(height);
+    }
+  };
+
+  // We use a simple hidden content renderer that measures its own height with onLayout
+  if (!isOpen && contentHeight === 0) {
+    return (
+      <View style={{ height: 0, overflow: 'hidden' }}>
+        <View onLayout={handleLayout}>
+          <View className={cn(accordionContentClassNames.content.base, contentClassName)}>
+            {renderContent(children)}
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
-    <div
-      className={cn(
-        accordionContentClassNames?.base || '',
-        'transition-all duration-200',
-        isOpen ? 'h-auto opacity-100' : 'h-0 opacity-0',
-        'overflow-hidden',
-        className || ''
-      )}
+    <Animated.View
+      style={{
+        height: animatedHeight,
+        opacity: animatedOpacity,
+        overflow: 'hidden',
+      }}
+      className={cn(accordionContentClassNames.base, className)}
     >
-      <div className={cn(accordionContentClassNames?.content?.base || '', contentClassName || '')}>
+      <View
+        className={cn(accordionContentClassNames.content.base, contentClassName)}
+        onLayout={isOpen ? handleLayout : undefined}
+      >
         {renderContent(children)}
-      </div>
-    </div>
+      </View>
+    </Animated.View>
   );
 };

@@ -1,8 +1,7 @@
-'use client';
-
 import React from 'react';
+import { View, Text } from 'react-native';
 import { cn } from '../../../lib/utils';
-import type { IconType } from 'react-icons';
+import Feather from 'react-native-vector-icons/Feather';
 
 // Import styles
 import {
@@ -12,10 +11,19 @@ import {
   iconColors,
 } from './styles';
 
-// Updated types for custom icon rendering
+// Types for custom icon rendering
 type IconProps = {
+  name: string;
   size: number;
   color: string;
+};
+
+// Create a wrapper component to fix TypeScript compatibility issues
+const FeatherIcon = ({ name, size, color }: IconProps) => {
+  // Use the two-step type assertion pattern (first to unknown, then to the desired type)
+  // This is the recommended TypeScript pattern for type assertions when types don't overlap
+  const IconComponent = Feather as unknown as React.FC<IconProps>;
+  return <IconComponent name={name} size={size} color={color} />;
 };
 
 // Types for the Alert component
@@ -23,8 +31,9 @@ interface AlertProps {
   variant?: 'default' | 'destructive';
   className?: string;
   children: React.ReactNode;
-  icon?: React.ReactNode;
-  mode?: 'light' | 'dark';
+  icon?: string; // Name of the Feather icon
+  mode?: 'light' | 'dark'; // Added mode prop to replace useTheme
+  // Custom icon renderer if not using Feather
   renderIcon?: (props: IconProps) => React.ReactNode;
 }
 
@@ -34,37 +43,36 @@ export const Alert: React.FC<AlertProps> = ({
   className = '',
   children,
   icon,
-  mode = 'light',
+  mode = 'light', // Default to light mode
   renderIcon,
 }) => {
   const isDark = mode === 'dark';
 
+  // Get the appropriate color for the icon based on variant and mode
   const iconColor = isDark
     ? iconColors.dark[variant as keyof typeof iconColors.dark]
     : iconColors.light[variant as keyof typeof iconColors.light];
 
   return (
-    <div
+    <View
       className={cn(
         alertClassNames.base,
         isDark ? alertClassNames.theme.dark[variant] : alertClassNames.theme.light[variant],
-        'relative flex flex-row items-start justify-start',
         className
       )}
     >
-      {(icon || renderIcon) && (
-        <div className="">
+      {icon && (
+        <View style={{ position: 'absolute', left: 16, top: 16 }}>
+          {/* If a custom renderIcon function is provided, use it */}
           {renderIcon ? (
-            renderIcon({ size: 16, color: iconColor })
+            renderIcon({ name: icon, size: 16, color: iconColor })
           ) : (
-            <div className="flex items-center justify-center mt-[3px]" style={{ color: iconColor }}>
-              {icon}
-            </div>
+            <FeatherIcon name={icon} size={16} color={iconColor} />
           )}
-        </div>
+        </View>
       )}
-      <div className={cn('flex flex-col', icon || renderIcon ? 'ml-3' : '')}>{children}</div>
-    </div>
+      <View style={{ marginLeft: icon ? 28 : 0 }}>{children}</View>
+    </View>
   );
 };
 
@@ -72,18 +80,18 @@ export const Alert: React.FC<AlertProps> = ({
 interface AlertTitleProps {
   className?: string;
   children: React.ReactNode;
-  mode?: 'light' | 'dark';
+  mode?: 'light' | 'dark'; // Added mode prop
 }
 
 export const AlertTitle: React.FC<AlertTitleProps> = ({
   className = '',
   children,
-  mode = 'light',
+  mode = 'light', // Default to light mode
 }) => {
   const isDark = mode === 'dark';
 
   return (
-    <h5
+    <Text
       className={cn(
         alertTitleClassNames.base,
         isDark ? alertTitleClassNames.theme.dark : alertTitleClassNames.theme.light,
@@ -91,7 +99,7 @@ export const AlertTitle: React.FC<AlertTitleProps> = ({
       )}
     >
       {children}
-    </h5>
+    </Text>
   );
 };
 
@@ -99,21 +107,21 @@ export const AlertTitle: React.FC<AlertTitleProps> = ({
 interface AlertDescriptionProps {
   className?: string;
   children: React.ReactNode;
-  mode?: 'light' | 'dark';
+  mode?: 'light' | 'dark'; // Added mode prop
 }
 
 export const AlertDescription: React.FC<AlertDescriptionProps> = ({
   className = '',
   children,
-  mode = 'light',
+  mode = 'light', // Default to light mode
 }) => {
   const isDark = mode === 'dark';
 
-  // Helper function to ensure text content is properly styled
+  // Helper function to ensure text content is wrapped in Text components
   const renderContent = (content: React.ReactNode): React.ReactNode => {
     if (typeof content === 'string' || typeof content === 'number') {
       return (
-        <p
+        <Text
           className={cn(
             alertDescriptionClassNames.base,
             isDark ? alertDescriptionClassNames.theme.dark : alertDescriptionClassNames.theme.light,
@@ -121,14 +129,14 @@ export const AlertDescription: React.FC<AlertDescriptionProps> = ({
           )}
         >
           {content}
-        </p>
+        </Text>
       );
     }
 
     if (React.isValidElement(content)) {
       const elementProps = content.props as any;
-      // If it's already a paragraph or has no children, return as is
-      if (content.type === 'p' || (elementProps && !elementProps.children)) {
+      // If it's already a Text component or has no children, return as is
+      if ((content.type as any) === Text || (elementProps && !elementProps.children)) {
         return content;
       }
 
@@ -157,8 +165,8 @@ export const AlertDescription: React.FC<AlertDescriptionProps> = ({
   };
 
   return (
-    <div className={cn(alertDescriptionClassNames.container, className)}>
+    <View className={cn(alertDescriptionClassNames.container, className)}>
       {renderContent(children)}
-    </div>
+    </View>
   );
 };

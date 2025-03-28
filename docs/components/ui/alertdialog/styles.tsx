@@ -1,6 +1,6 @@
 // AlertDialog styling
 export const alertDialogClassNames = {
-  base: 'relative',
+  base: '',
 };
 
 // AlertDialogTrigger styling
@@ -10,48 +10,67 @@ export const alertDialogTriggerClassNames = {
 
 // AlertDialogContent styling
 export const alertDialogContentClassNames = {
-  base: 'relative border rounded-lg p-6 shadow-lg',
+  base: 'border rounded-lg p-6 overflow-hidden',
   theme: {
-    light: 'bg-white border-gray-200',
-    dark: 'bg-gray-900 border-gray-700',
+    light: 'bg-background border-border',
+    dark: 'bg-dark-background border-dark-border',
   },
 };
 
 // AlertDialogHeader styling
 export const alertDialogHeaderClassNames = {
-  base: 'flex flex-col space-y-2 text-center sm:text-left',
+  base: 'flex-col space-y-2 items-center',
 };
 
 // AlertDialogFooter styling
 export const alertDialogFooterClassNames = {
-  base: 'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+  base: '',
+  smallScreen: 'flex-col-reverse',
+  largeScreen: 'flex-row justify-end space-x-2',
 };
 
 // AlertDialogTitle styling
 export const alertDialogTitleClassNames = {
-  base: 'text-lg font-semibold leading-none tracking-tight',
+  base: 'text-lg font-semibold text-center',
   theme: {
-    light: 'text-gray-900',
-    dark: 'text-gray-50',
+    light: 'text-foreground',
+    dark: 'text-dark-foreground',
   },
 };
 
 // AlertDialogDescription styling
 export const alertDialogDescriptionClassNames = {
-  base: 'text-sm',
+  base: 'text-sm text-center',
   theme: {
-    light: 'text-gray-500',
-    dark: 'text-gray-400',
+    light: 'text-muted-foreground',
+    dark: 'text-dark-muted-foreground',
   },
-  container: 'mt-2',
+  container: '',
 };
 
 // AlertDialogAction styling
 export const alertDialogActionClassNames = {
-  base: 'mt-2 sm:mt-0',
+  base: '',
 };
 
 // AlertDialogCancel styling
 export const alertDialogCancelClassNames = {
-  base: 'mt-2 sm:mt-0',
+  base: '',
+  smallScreen: 'mt-2',
+};
+
+// Animation configurations
+export const animationConfigs = {
+  fade: {
+    duration: 200,
+    useNativeDriver: true,
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  },
+  scale: {
+    duration: 200,
+    useNativeDriver: true,
+    inputRange: [0, 1],
+    outputRange: [0.95, 1],
+  },
 };

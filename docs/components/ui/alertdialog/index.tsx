@@ -1,4 +1,16 @@
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
+import {
+  Modal,
+  View,
+  Text,
+  Pressable,
+  Animated,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Platform,
+  StyleSheet,
+  LayoutChangeEvent,
+} from 'react-native';
 import { cn } from '../../../lib/utils';
 
 // Import styles
@@ -12,6 +24,7 @@ import {
   alertDialogDescriptionClassNames,
   alertDialogActionClassNames,
   alertDialogCancelClassNames,
+  animationConfigs,
 } from './styles';
 
 // Import Button component
@@ -65,7 +78,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
 
   return (
     <AlertDialogContext.Provider value={{ open, setOpen, mode }}>
-      <div className={cn(alertDialogClassNames.base)}>{children}</div>
+      <View className={cn(alertDialogClassNames.base)}>{children}</View>
     </AlertDialogContext.Provider>
   );
 };
@@ -82,23 +95,21 @@ export const AlertDialogTrigger: React.FC<AlertDialogTriggerProps> = ({
   children,
   asChild = false,
 }) => {
-  const { setOpen, mode } = useAlertDialog();
+  const { setOpen } = useAlertDialog();
 
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children as React.ReactElement<any>, {
-      onClick: () => setOpen(true),
+      onPress: () => setOpen(true),
     });
   }
 
   return (
-    <Button
-      variant="default"
-      mode={mode}
+    <Pressable
       className={cn(alertDialogTriggerClassNames.base, className)}
-      onClick={() => setOpen(true)}
+      onPress={() => setOpen(true)}
     >
       {children}
-    </Button>
+    </Pressable>
   );
 };
 
@@ -114,44 +125,114 @@ export const AlertDialogContent: React.FC<AlertDialogContentProps> = ({
 }) => {
   const { open, setOpen, mode } = useAlertDialog();
   const isDark = mode === 'dark';
-  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(0.95)).current;
+
+  // Single ready state to avoid race conditions
+  const [isReady, setIsReady] = useState(false);
+  const contentRef = useRef<View>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (contentRef.current && !contentRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-
     if (open) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
+      // Start animations when dialog opens
+      setIsReady(true);
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: animationConfigs.fade.duration,
+          useNativeDriver: animationConfigs.fade.useNativeDriver,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: animationConfigs.scale.outputRange[1],
+          duration: animationConfigs.scale.duration,
+          useNativeDriver: animationConfigs.scale.useNativeDriver,
+        }),
+      ]).start();
+    } else {
+      // Reset the ready state when dialog closes
+      setIsReady(false);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [open, setOpen]);
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: animationConfigs.fade.duration,
+          useNativeDriver: animationConfigs.fade.useNativeDriver,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: animationConfigs.scale.outputRange[0],
+          duration: animationConfigs.scale.duration,
+          useNativeDriver: animationConfigs.scale.useNativeDriver,
+        }),
+      ]).start();
+    }
+  }, [open]);
+
+  // Modified handleLayout function
+  const handleLayout = (event: LayoutChangeEvent) => {
+    // We still want to capture layout, but no longer conditional on animation
+    if (!isReady && open) {
+      setIsReady(true);
+    }
+  };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80">
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <div
+    <Modal transparent visible={open} animationType="none" onRequestClose={() => setOpen(false)}>
+      {/* Background overlay */}
+      <Animated.View
+        style={[
+          StyleSheet.absoluteFill,
+          {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            opacity: fadeAnim,
+          },
+        ]}
+      >
+        <TouchableWithoutFeedback onPress={() => setOpen(false)}>
+          <View style={StyleSheet.absoluteFill} />
+        </TouchableWithoutFeedback>
+      </Animated.View>
+
+      {/* Content wrapper with flexbox centering */}
+      <View className="flex-1 justify-center items-center p-4">
+        {/* Dialog content with animation */}
+        <Animated.View
           ref={contentRef}
+          onLayout={handleLayout}
           className={cn(
             alertDialogContentClassNames.base,
             isDark
               ? alertDialogContentClassNames.theme.dark
               : alertDialogContentClassNames.theme.light,
-            'w-full max-w-md transform rounded-lg shadow-xl transition-all',
             className
           )}
+          style={{
+            width: '100%',
+            maxWidth: 450,
+            opacity: fadeAnim,
+            transform: [{ scale: scaleAnim }],
+            backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
+            borderWidth: 1,
+            borderColor: isDark ? '#2d2d2d' : '#e4e4e7',
+            borderRadius: 8,
+            padding: 24,
+            // Use StyleSheet for consistent rendering
+            ...StyleSheet.flatten({
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+            }),
+          }}
         >
-          <div className="gap-4 w-full">{children}</div>
-        </div>
-      </div>
-    </div>
+          <View className="gap-4 w-full">{children}</View>
+        </Animated.View>
+      </View>
+    </Modal>
   );
 };
 
@@ -165,7 +246,7 @@ export const AlertDialogHeader: React.FC<AlertDialogHeaderProps> = ({
   className = '',
   children,
 }) => {
-  return <div className={cn(alertDialogHeaderClassNames.base, className)}>{children}</div>;
+  return <View className={cn(alertDialogHeaderClassNames.base, className)}>{children}</View>;
 };
 
 // AlertDialogFooter component
@@ -178,16 +259,22 @@ export const AlertDialogFooter: React.FC<AlertDialogFooterProps> = ({
   className = '',
   children,
 }) => {
+  // For small screens, column-reverse like in original component
+  // For larger screens, we'll use row and justify-end
+  const { width } = Dimensions.get('window');
+  const isSmallScreen = true; // Equivalent to tailwind sm breakpoint
+
   return (
-    <div
+    <View
       className={cn(
-        alertDialogFooterClassNames.base,
-        'mt-6 flex flex-col-reverse sm:flex-row gap-2 sm:gap-3',
+        isSmallScreen
+          ? alertDialogFooterClassNames.smallScreen
+          : alertDialogFooterClassNames.largeScreen,
         className
       )}
     >
       {children}
-    </div>
+    </View>
   );
 };
 
@@ -202,7 +289,7 @@ export const AlertDialogTitle: React.FC<AlertDialogTitleProps> = ({ className = 
   const isDark = mode === 'dark';
 
   return (
-    <h2
+    <Text
       className={cn(
         alertDialogTitleClassNames.base,
         isDark ? alertDialogTitleClassNames.theme.dark : alertDialogTitleClassNames.theme.light,
@@ -210,7 +297,7 @@ export const AlertDialogTitle: React.FC<AlertDialogTitleProps> = ({ className = 
       )}
     >
       {children}
-    </h2>
+    </Text>
   );
 };
 
@@ -227,19 +314,59 @@ export const AlertDialogDescription: React.FC<AlertDialogDescriptionProps> = ({
   const { mode } = useAlertDialog();
   const isDark = mode === 'dark';
 
+  // Helper function to ensure text content is wrapped in Text components
+  const renderContent = (content: React.ReactNode): React.ReactNode => {
+    if (typeof content === 'string' || typeof content === 'number') {
+      return (
+        <Text
+          className={cn(
+            alertDialogDescriptionClassNames.base,
+            isDark
+              ? alertDialogDescriptionClassNames.theme.dark
+              : alertDialogDescriptionClassNames.theme.light,
+            className
+          )}
+        >
+          {content}
+        </Text>
+      );
+    }
+
+    if (React.isValidElement(content)) {
+      const elementProps = content.props as any;
+      // If it's already a Text component or has no children, return as is
+      if ((content.type as any)?.name === 'Text' || (elementProps && !elementProps.children)) {
+        return content;
+      }
+
+      // For other elements with children, recursively process their children
+      if (elementProps && elementProps.children) {
+        return React.cloneElement(
+          content,
+          elementProps,
+          React.Children.map(
+            elementProps.children,
+            (child): React.ReactNode => renderContent(child)
+          )
+        );
+      }
+
+      return content;
+    }
+
+    if (Array.isArray(content)) {
+      return content.map((item, index) => (
+        <React.Fragment key={index}>{renderContent(item)}</React.Fragment>
+      ));
+    }
+
+    return content;
+  };
+
   return (
-    <div className={cn(alertDialogDescriptionClassNames.container, className)}>
-      <p
-        className={cn(
-          alertDialogDescriptionClassNames.base,
-          isDark
-            ? alertDialogDescriptionClassNames.theme.dark
-            : alertDialogDescriptionClassNames.theme.light
-        )}
-      >
-        {children}
-      </p>
-    </div>
+    <View className={cn(alertDialogDescriptionClassNames.container, className)}>
+      {renderContent(children)}
+    </View>
   );
 };
 
@@ -247,21 +374,21 @@ export const AlertDialogDescription: React.FC<AlertDialogDescriptionProps> = ({
 interface AlertDialogActionProps {
   className?: string;
   children: React.ReactNode;
-  onClick?: () => void;
+  onPress?: () => void;
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 }
 
 export const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
   className = '',
   children,
-  onClick,
+  onPress,
   variant = 'default',
 }) => {
   const { setOpen, mode } = useAlertDialog();
 
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
     }
     setOpen(false);
   };
@@ -271,7 +398,7 @@ export const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
       variant={variant}
       mode={mode}
       className={cn(alertDialogActionClassNames.base, className)}
-      onClick={handleClick}
+      onPress={handlePress}
     >
       {children}
     </Button>
@@ -282,31 +409,37 @@ export const AlertDialogAction: React.FC<AlertDialogActionProps> = ({
 interface AlertDialogCancelProps {
   className?: string;
   children: React.ReactNode;
-  onClick?: () => void;
+  onPress?: () => void;
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 }
 
 export const AlertDialogCancel: React.FC<AlertDialogCancelProps> = ({
   className = '',
   children,
-  onClick,
+  onPress,
   variant = 'outline',
 }) => {
   const { setOpen, mode } = useAlertDialog();
+  const { width } = Dimensions.get('window');
+  const isSmallScreen = true;
 
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
     }
     setOpen(false);
   };
 
   return (
     <Button
-      variant={variant}
+      variant={variant || 'outline'}
       mode={mode}
-      className={cn(alertDialogCancelClassNames.base, className)}
-      onClick={handleClick}
+      className={cn(
+        isSmallScreen ? alertDialogCancelClassNames.smallScreen : '',
+        alertDialogCancelClassNames.base,
+        className
+      )}
+      onPress={handlePress}
     >
       {children}
     </Button>

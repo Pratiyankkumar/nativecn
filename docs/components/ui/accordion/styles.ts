@@ -1,3 +1,5 @@
+import { Easing } from 'react-native';
+
 // Accordion base component styles
 export const accordionClassNames = {
   base: '',
@@ -49,13 +51,15 @@ export const accordionContentClassNames = {
 export const animationConfigs = {
   rotation: {
     duration: 200,
-    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    easing: Easing.cubic,
+    useNativeDriver: true,
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   },
   height: {
     duration: 200,
-    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    easing: Easing.cubic,
+    useNativeDriver: false,
   },
   opacity: {
     inputRange: [0, 0.5, 1],

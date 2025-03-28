@@ -1,6 +1,9 @@
+'use client';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import '../styles/globals.css';
+// Import the vector icons CSS
+import 'react-native-vector-icons/Fonts/Feather.ttf';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

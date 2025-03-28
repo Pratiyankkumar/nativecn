@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { View, Image, ImageSourcePropType, Text, StyleProp, ViewStyle } from 'react-native';
+
 import { cn } from '../../../lib/utils';
 import { avatarClassNames, avatarImageClassNames, avatarFallbackClassNames } from './styles';
 
@@ -8,44 +10,37 @@ import { avatarClassNames, avatarImageClassNames, avatarFallbackClassNames } fro
 interface AvatarProps {
   className?: string;
   children?: React.ReactNode;
-  style?: React.CSSProperties;
+  style?: StyleProp<ViewStyle>;
   size?: 'sm' | 'md' | 'lg'; // predefined sizes
-  mode?: 'light' | 'dark'; // theme mode
 }
 
-const Avatar: React.FC<AvatarProps> = ({
-  className = '',
-  children,
-  style,
-  size = 'md',
-  mode = 'light',
-}) => {
+const Avatar: React.FC<AvatarProps> = ({ className = '', children, style, size = 'md' }) => {
   // Process children to ensure text is wrapped
   const renderChildren = () => {
     if (children == null) {
       return null;
     }
 
-    // If children is a string, wrap it in a span
+    // If children is a string, wrap it in a Text component
     if (typeof children === 'string') {
-      return <span>{children}</span>;
+      return <Text>{children}</Text>;
     }
 
-    // If children is a number, convert to string and wrap in span
+    // If children is a number, convert to string and wrap in Text
     if (typeof children === 'number') {
-      return <span>{children.toString()}</span>;
+      return <Text>{children.toString()}</Text>;
     }
 
-    // If children is a boolean, convert to string and wrap in span
+    // If children is a boolean, convert to string and wrap in Text
     if (typeof children === 'boolean') {
-      return <span>{children.toString()}</span>;
+      return <Text>{children.toString()}</Text>;
     }
 
     // If children is an array, process each item
     if (Array.isArray(children)) {
       return React.Children.map(children, child => {
         if (typeof child === 'string' || typeof child === 'number' || typeof child === 'boolean') {
-          return <span>{String(child)}</span>;
+          return <Text>{String(child)}</Text>;
         }
         return child;
       });
@@ -66,17 +61,12 @@ const Avatar: React.FC<AvatarProps> = ({
   };
 
   return (
-    <div
+    <View
       style={style}
-      className={cn(
-        avatarClassNames.base,
-        avatarClassNames.size[size],
-        mode === 'dark' ? 'dark' : '',
-        className
-      )}
+      className={cn(avatarClassNames.base, avatarClassNames.size[size], className)}
     >
       {safeRender()}
-    </div>
+    </View>
   );
 };
 
@@ -85,11 +75,10 @@ const Avatar: React.FC<AvatarProps> = ({
  */
 interface AvatarImageProps {
   className?: string;
-  source: string;
+  source: ImageSourcePropType;
   alt?: string;
   onLoadingStatusChange?: (isLoading: boolean) => void;
   onError?: () => void;
-  mode?: 'light' | 'dark'; // theme mode
 }
 
 const AvatarImage: React.FC<AvatarImageProps> = ({
@@ -98,11 +87,23 @@ const AvatarImage: React.FC<AvatarImageProps> = ({
   alt,
   onLoadingStatusChange,
   onError,
-  mode = 'light',
 }) => {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Provide better source debugging
+  const getSourceInfo = (src: ImageSourcePropType) => {
+    if (typeof src === 'number') {
+      return `Local image ID: ${src}`;
+    } else if (typeof src === 'object' && src !== null) {
+      if ('uri' in src && typeof src.uri === 'string') {
+        return src.uri;
+      }
+      return 'Object source without URI';
+    }
+    return 'Unknown source type';
+  };
 
   // Fix infinite loop by using a ref to track changes
   const initialLoadRef = React.useRef(true);
@@ -118,8 +119,18 @@ const AvatarImage: React.FC<AvatarImageProps> = ({
 
   // Only reset loading state on mount and when source genuinely changes
   useEffect(() => {
-    // Check if this is a genuine source change
-    const isSourceChange = initialLoadRef.current || source !== sourceRef.current;
+    // Check if this is a genuine source change, not just a re-render
+    let isSourceChange = initialLoadRef.current;
+
+    if (!isSourceChange && typeof source === 'object' && typeof sourceRef.current === 'object') {
+      // For URI sources, compare the URI strings
+      const oldUri = 'uri' in sourceRef.current ? sourceRef.current.uri : '';
+      const newUri = 'uri' in source ? source.uri : '';
+      isSourceChange = oldUri !== newUri;
+    } else if (!isSourceChange) {
+      // For other types, just do a reference check
+      isSourceChange = source !== sourceRef.current;
+    }
 
     if (isSourceChange) {
       // Reset component state
@@ -136,6 +147,7 @@ const AvatarImage: React.FC<AvatarImageProps> = ({
       sourceRef.current = source;
       initialLoadRef.current = false;
     }
+    // Only depend on source
   }, [source]);
 
   const handleError = () => {
@@ -166,13 +178,13 @@ const AvatarImage: React.FC<AvatarImageProps> = ({
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      className={cn(avatarImageClassNames.base, mode === 'dark' ? 'dark' : '', className)}
-      src={source}
-      alt={alt}
+    <Image
+      className={cn(avatarImageClassNames.base, className)}
+      source={source}
+      accessibilityLabel={alt}
       onError={handleError}
       onLoad={handleLoad}
+      resizeMode="cover"
     />
   );
 };
@@ -185,9 +197,8 @@ interface AvatarFallbackProps {
   delayMs?: number;
   children?: React.ReactNode;
   isImageLoading?: boolean;
-  hasImageError?: boolean;
-  standalone?: boolean;
-  mode?: 'light' | 'dark'; // theme mode
+  hasImageError?: boolean; // New prop to track image errors
+  standalone?: boolean; // New prop to indicate this fallback is used without an image
 }
 
 const AvatarFallback: React.FC<AvatarFallbackProps> = ({
@@ -196,8 +207,7 @@ const AvatarFallback: React.FC<AvatarFallbackProps> = ({
   children,
   isImageLoading = false,
   hasImageError = false,
-  standalone = false,
-  mode = 'light',
+  standalone = false, // Default to false
 }) => {
   const [shouldShow, setShouldShow] = useState(delayMs === 0);
   const isLoadingRef = useRef(isImageLoading);
@@ -218,6 +228,12 @@ const AvatarFallback: React.FC<AvatarFallbackProps> = ({
     return undefined;
   }, [delayMs]);
 
+  // We should show the fallback when:
+  // 1. We're past the delay period AND
+  // 2. Either:
+  //    a. This is a standalone fallback (no image component) OR
+  //    b. The image is still loading OR
+  //    c. There was an error loading the image
   const shouldDisplayFallback = shouldShow && (standalone || isImageLoading || hasImageError);
 
   if (!shouldDisplayFallback) {
@@ -231,26 +247,26 @@ const AvatarFallback: React.FC<AvatarFallbackProps> = ({
       return null;
     }
 
-    // If children is a string, wrap it in a span
+    // If children is a string, wrap it in a Text component
     if (typeof children === 'string') {
-      return <span className={avatarFallbackClassNames.text}>{children}</span>;
+      return <Text className={avatarFallbackClassNames.text}>{children}</Text>;
     }
 
-    // If children is a number, convert to string and wrap in span
+    // If children is a number, convert to string and wrap in Text
     if (typeof children === 'number') {
-      return <span className={avatarFallbackClassNames.text}>{children.toString()}</span>;
+      return <Text className={avatarFallbackClassNames.text}>{children.toString()}</Text>;
     }
 
-    // If children is a boolean, convert to string and wrap in span
+    // If children is a boolean, convert to string and wrap in Text
     if (typeof children === 'boolean') {
-      return <span className={avatarFallbackClassNames.text}>{children.toString()}</span>;
+      return <Text className={avatarFallbackClassNames.text}>{children.toString()}</Text>;
     }
 
     // If children is an array, process each child
     if (Array.isArray(children)) {
       return React.Children.map(children, child => {
         if (typeof child === 'string' || typeof child === 'number' || typeof child === 'boolean') {
-          return <span className={avatarFallbackClassNames.text}>{String(child)}</span>;
+          return <Text className={avatarFallbackClassNames.text}>{String(child)}</Text>;
         }
         return child;
       });
@@ -261,8 +277,8 @@ const AvatarFallback: React.FC<AvatarFallbackProps> = ({
       return children;
     }
 
-    // For any other case, wrap it in a span to be safe
-    return <span className={avatarFallbackClassNames.text}>{String(children)}</span>;
+    // For any other case, wrap it in a Text component to be safe
+    return <Text className={avatarFallbackClassNames.text}>{String(children)}</Text>;
   };
 
   // Safe rendering function
@@ -275,11 +291,7 @@ const AvatarFallback: React.FC<AvatarFallbackProps> = ({
     }
   };
 
-  return (
-    <div className={cn(avatarFallbackClassNames.base, mode === 'dark' ? 'dark' : '', className)}>
-      {safeRender()}
-    </div>
-  );
+  return <View className={cn(avatarFallbackClassNames.base, className)}>{safeRender()}</View>;
 };
 
 export { Avatar, AvatarImage, AvatarFallback };
