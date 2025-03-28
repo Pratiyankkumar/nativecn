@@ -10,6 +10,17 @@ NativeCN is in early development with a foundation of core components and infras
 
 ### Components
 
+#### Component Progress
+
+| Category                      | Progress                 | Completed | Total  |
+| ----------------------------- | ------------------------ | --------- | ------ |
+| Essential UI Primitives       | ⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜     | 1         | 10     |
+| Common Components             | ⬛⬛⬛⬛⬛⬛⬜⬜⬜⬜⬜⬜ | 6         | 12     |
+| Navigation & Structure        | ⬛⬛⬜⬜⬜⬜⬜⬜         | 2         | 8      |
+| Advanced Interaction          | ⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜     | 1         | 10     |
+| Data & Specialized Components | ⬛⬛⬜⬜⬜⬜             | 2         | 6      |
+| **Overall**                   | ⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜     | **12**    | **46** |
+
 #### Essential UI Primitives
 
 - [x] [Button component](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/button)
