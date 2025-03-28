@@ -3,5 +3,6 @@
   "alert": "Alert",
   "button": "Button",
   "alert-dialog": "Alert Dialog",
-  "avatar": "Avatar"
+  "avatar": "Avatar",
+  "skeleton": "Skeleton"
 }

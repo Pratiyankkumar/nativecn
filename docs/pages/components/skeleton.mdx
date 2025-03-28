@@ -1,0 +1,175 @@
+# Skeleton Component
+
+import { Skeleton } from '../../components/ui/skeleton'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+import { View } from 'react-native'
+
+export const SkeletonWithMode = (props) => {
+    const mode = useContext(PreviewModeContext) || 'light';
+    // Ensure animation is enabled by default
+    return <Skeleton mode={mode} animated={props.animated !== false} {...props} />;
+}
+
+## Installation
+
+The Skeleton component provides a placeholder loading state for content that is still loading.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add skeleton"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic Skeleton"
+  code={`import { View } from 'react-native';
+import { Skeleton } from '../components/ui/skeleton';
+
+export default function BasicSkeleton() {
+  return (
+    <View style={{ gap: 12 }}>
+      <Skeleton mode="light" className="h-4 w-[250px]" />
+      <Skeleton mode="light" className="h-4 w-[200px]" />
+      <Skeleton mode="light" className="h-4 w-[150px]" />
+    </View>
+  );
+}`}
+>
+  <View style={{ gap: 12 }}>
+    <SkeletonWithMode className="h-4 w-[250px]" />
+    <SkeletonWithMode className="h-4 w-[200px]" />
+    <SkeletonWithMode className="h-4 w-[150px]" />
+  </View>
+</ComponentPreview>
+
+## Card Skeleton Example
+
+<ComponentPreview
+  title="Card Loading State"
+  code={`import { View } from 'react-native';
+import { Skeleton } from '../components/ui/skeleton';
+
+export default function CardSkeleton() {
+  return (
+    <View style={{ gap: 16 }}>
+      <Skeleton mode="light" className="h-12 w-12 rounded-full" />
+      <View style={{ gap: 8 }}>
+        <Skeleton mode="light" className="h-4 w-[250px]" />
+        <Skeleton mode="light" className="h-4 w-[200px]" />
+      </View>
+    </View>
+  );
+}`}
+>
+  <View style={{ gap: 16 }}>
+    <SkeletonWithMode className="h-12 w-12 rounded-full" />
+    <View style={{ gap: 8 }}>
+      <SkeletonWithMode className="h-4 w-[250px]" />
+      <SkeletonWithMode className="h-4 w-[200px]" />
+    </View>
+  </View>
+</ComponentPreview>
+
+## Static vs Animated
+
+<ComponentPreview
+  title="Animation Comparison"
+  code={`import { View } from 'react-native';
+import { Skeleton } from '../components/ui/skeleton';
+
+export default function AnimationComparison() {
+  return (
+    <View style={{ gap: 12 }}>
+      <Skeleton mode="light" className="h-4 w-[200px]" animated={true} />
+      <Skeleton mode="light" className="h-4 w-[200px]" animated={false} />
+    </View>
+  );
+}`}
+>
+  <View style={{ gap: 12 }}>
+    <SkeletonWithMode className="h-4 w-[200px]" animated={true} />
+    <SkeletonWithMode className="h-4 w-[200px]" animated={false} />
+  </View>
+</ComponentPreview>
+
+## Complex Content Example
+
+<ComponentPreview
+  title="Complex Loading State"
+  code={`import { View } from 'react-native';
+import { Skeleton } from '../components/ui/skeleton';
+
+export default function ComplexSkeleton() {
+  return (
+    <View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+        <Skeleton mode="light" className="h-12 w-12 rounded-full" />
+        <View style={{ gap: 8 }}>
+          <Skeleton mode="light" className="h-4 w-[250px]" />
+          <Skeleton mode="light" className="h-4 w-[200px]" />
+        </View>
+      </View>
+      <Skeleton mode="light" className="h-32 w-full mt-4" />
+    </View>
+  );
+}`}
+>
+  <View>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+      <SkeletonWithMode className="h-12 w-12 rounded-full" />
+      <View style={{ gap: 8 }}>
+        <SkeletonWithMode className="h-4 w-[250px]" />
+        <SkeletonWithMode className="h-4 w-[200px]" />
+      </View>
+    </View>
+    <SkeletonWithMode className="h-32 w-full mt-4" />
+  </View>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Basic Skeleton Usage with Responsive Mode"
+  code={`import { View } from 'react-native';
+import { Skeleton } from '../components/ui/skeleton';
+import { useColorScheme } from 'react-native';
+
+export function LoadingCard() {
+  const colorScheme = useColorScheme();
+  
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+      <Skeleton 
+        className="h-12 w-12 rounded-full"
+        mode={colorScheme} // 'light' or 'dark' based on system preference
+      />
+      <View style={{ gap: 8 }}>
+        <Skeleton 
+          className="h-4 w-[250px]"
+          mode={colorScheme}
+        />
+        <Skeleton 
+          className="h-4 w-[200px]"
+          mode={colorScheme}
+        />
+      </View>
+    </View>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Skeleton Props"
+  language="typescript"
+  code={`interface SkeletonProps {
+  className: string;      // Required - Tailwind classes for styling
+  mode?: 'light' | 'dark'; // Optional - Controls light/dark appearance
+  animated?: boolean;      // Optional - Controls animation, defaults to true
+}`}
+/>
