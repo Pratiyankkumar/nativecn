@@ -56,22 +56,18 @@ npx nativecn preset
 
 Creates a nativecn-preset.js file with default theme colors.
 
-## Available Components
+#### Component Progress
 
-- [button](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/button) - A customizable button component with different variants, sizes and states
-- [accordion](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/accordion) - A vertically stacked set of interactive headings that reveal or hide associated content
-- [alert](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/alert) - A component that displays a brief, important message to get users' attention
-- [alertdialog](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/alertdialog) - A modal dialog that interrupts the user with important content and expects a response
-- [avatar](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/avatar) - An image component used to represent a user, with a fallback for showing initials
-- [badge](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/badge) - A small visual indicator for highlighting status, labels or counts
-- [breadcrumb](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/breadcrumb) - A navigation component that shows the current location in a hierarchical structure
-- [aspectratio](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/aspectratio) - A component to maintain consistent width/height ratios across different screen sizes
-- [card](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/card) - A container component that groups related content and actions
-- [carousel](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/carousel) - A slideshow component for cycling through elements like images or slides of content
-- [input-otp](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/input-otp) - A one-time password input component with individual character boxes and auto-focus
-- [skeleton](https://github.com/tailwiinder/nativecn/tree/main/packages/cli/templates/skeleton) - A placeholder loading component that animates to indicate content is being loaded
+| Category                      | Progress                 | Completed | Total  |
+| ----------------------------- | ------------------------ | --------- | ------ |
+| Essential UI Primitives       | ⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜     | 1         | 10     |
+| Common Components             | ⬛⬛⬛⬛⬛⬛⬜⬜⬜⬜⬜⬜ | 6         | 12     |
+| Navigation & Structure        | ⬛⬛⬜⬜⬜⬜⬜⬜         | 2         | 8      |
+| Advanced Interaction          | ⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜     | 1         | 10     |
+| Data & Specialized Components | ⬛⬛⬜⬜⬜⬜             | 2         | 6      |
+| **Overall**                   | ⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜     | **12**    | **46** |
 
-And more to come! Check out the [Roadmap](ROADMAP.md) for more details.
+Check out the [Roadmap](ROADMAP.md) for more details.
 
 ## Features
 
