@@ -1,7 +1,7 @@
 # NativeCN
 
 [![NPM Version](https://img.shields.io/npm/v/@nativecn/cli.svg)](https://www.npmjs.com/package/@nativecn/cli)
-[![Downloads](https://img.shields.io/npm/dm/@nativecn/cli.svg)](https://www.npmjs.com/package/@nativecn/cli)
+[![Downloads](https://img.shields.io/npm/dt/@nativecn/cli.svg)](https://www.npmjs.com/package/@nativecn/cli)
 [![License](https://img.shields.io/npm/l/@nativecn/cli.svg)](https://github.com/tailwiinder/nativecn/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/Documentation-View-blue)](https://nativecn.xyz/)
 [![GitHub Stars](https://img.shields.io/github/stars/tailwiinder/nativecn?style=social)](https://github.com/tailwiinder/nativecn)
