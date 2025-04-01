@@ -73,6 +73,14 @@ export interface OTPInputProps {
   onFocus?: () => void;
 }
 
+// Helper function to map our keyboard types to React Native's KeyboardTypeOptions
+const keyboardTypeMap: Record<string, TextInputProps['keyboardType']> = {
+  numeric: 'numeric',
+  default: 'default',
+  'email-address': 'email-address',
+  'phone-pad': 'phone-pad',
+};
+
 type OTPInputRef = {
   focus: () => void;
   blur: () => void;
@@ -762,7 +770,7 @@ export const OTPInput = forwardRef<OTPInputRef, OTPInputProps>(
                       onFocus={() => handleFocus(displayIndex)}
                       onBlur={handleBlur}
                       maxLength={1}
-                      keyboardType={keyboard}
+                      keyboardType={keyboardTypeMap[keyboard]}
                       secureTextEntry={false}
                       editable={!disabled}
                       selectTextOnFocus={true}
