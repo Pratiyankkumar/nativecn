@@ -1,0 +1,372 @@
+---
+title: "Carousel Component | NativeCN UI"
+description: "A versatile carousel/slider component for React Native apps with support for both horizontal and vertical orientations, navigation controls, and customizable styling."
+---
+
+# Carousel Component
+
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '../../components/ui/carousel'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const CarouselWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Carousel mode={mode} {...props} />;
+}
+
+## Installation
+
+The Carousel component provides a flexible way to showcase content in a scrollable container.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add carousel"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic Carousel"
+  code={`import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@nativecn/ui';
+import { View, Image } from 'react-native';
+
+export default function App() {
+  return (
+    <Carousel>
+      <CarouselContent>
+        <CarouselItem>
+          <Image 
+            source={{ uri: 'https://placehold.co/400x300/png' }}
+            style={{ width: '100%', height: 300 }}
+            resizeMode="cover"
+          />
+        </CarouselItem>
+        <CarouselItem>
+          <Image 
+            source={{ uri: 'https://placehold.co/400x300/png' }}
+            style={{ width: '100%', height: 300 }}
+            resizeMode="cover"
+          />
+        </CarouselItem>
+        <CarouselItem>
+          <Image 
+            source={{ uri: 'https://placehold.co/400x300/png' }}
+            style={{ width: '100%', height: 300 }}
+            resizeMode="cover"
+          />
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  );
+}`}
+>
+  <div style={{ maxWidth: '600px', width: '100%' }}>
+    <CarouselWithMode>
+      <CarouselContent>
+        <CarouselItem>
+          <img src="https://placehold.co/400x300/png" style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+        </CarouselItem>
+        <CarouselItem>
+          <img src="https://placehold.co/400x300/png" style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+        </CarouselItem>
+        <CarouselItem>
+          <img src="https://placehold.co/400x300/png" style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </CarouselWithMode>
+  </div>
+</ComponentPreview>
+
+## Vertical Orientation
+
+<ComponentPreview
+  title="Vertical Carousel"
+  code={`import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@nativecn/ui';
+import { View, Image } from 'react-native';
+
+export default function VerticalCarousel() {
+  return (
+    <Carousel orientation="vertical" className="h-[300px]">
+      <CarouselContent>
+        <CarouselItem>
+          <Image 
+            source={{ uri: 'https://placehold.co/400x200/png' }}
+            style={{ width: '100%', height: 200 }}
+            resizeMode="cover"
+          />
+        </CarouselItem>
+        <CarouselItem>
+          <Image 
+            source={{ uri: 'https://placehold.co/400x200/png' }}
+            style={{ width: '100%', height: 200 }}
+            resizeMode="cover"
+          />
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  );
+}`}
+>
+  <div style={{ maxWidth: '400px', width: '400px', height: '200px' }}>
+    <CarouselWithMode orientation="vertical">
+      <CarouselContent>
+        <CarouselItem>
+          <img src="https://placehold.co/400x200/png" style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+        </CarouselItem>
+        <CarouselItem>
+          <img src="https://placehold.co/400x200/png" style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </CarouselWithMode>
+  </div>
+</ComponentPreview>
+
+## With Custom Content
+
+<ComponentPreview
+  title="Product Showcase Carousel"
+  code={`import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@nativecn/ui';
+import { View, Text, Image, StyleSheet } from 'react-native';
+
+export default function ProductCarousel() {
+  return (
+    <Carousel>
+      <CarouselContent>
+        <CarouselItem>
+          <View style={styles.card}>
+            <Image 
+              source={{ uri: 'https://placehold.co/300x200/png' }}
+              style={styles.image}
+            />
+            <View style={styles.content}>
+              <Text style={styles.title}>Premium Headphones</Text>
+              <Text style={styles.price}>$299.99</Text>
+            </View>
+          </View>
+        </CarouselItem>
+        {/* More items... */}
+      </CarouselContent>
+      <CarouselPrevious variant="outline" />
+      <CarouselNext variant="outline" />
+    </Carousel>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+  },
+  content: {
+    padding: 16,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  price: {
+    fontSize: 16,
+    color: '#666',
+    marginTop: 8,
+  },
+});`}
+>
+  <div style={{ maxWidth: '600px', width: '100%' }}>
+    <CarouselWithMode>
+      <CarouselContent>
+        <CarouselItem>
+          <div style={{ 
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+          }}>
+            <img src="https://placehold.co/300x200/png" style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+            <div style={{ padding: '16px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>Premium Headphones</h3>
+              <p style={{ fontSize: '16px', color: '#666', marginTop: '8px' }}>$299.99</p>
+            </div>
+          </div>
+        </CarouselItem>
+        <CarouselItem>
+          <div style={{ 
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+          }}>
+            <img src="https://placehold.co/300x200/png" style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+            <div style={{ padding: '16px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>Wireless Earbuds</h3>
+              <p style={{ fontSize: '16px', color: '#666', marginTop: '8px' }}>$199.99</p>
+            </div>
+          </div>
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious variant="outline" />
+      <CarouselNext variant="outline" />
+    </CarouselWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Examples
+
+<ComponentCode
+  title="Image Gallery with Loop"
+  code={`import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@nativecn/ui';
+import { View, Image, StyleSheet, useColorScheme } from 'react-native';
+
+export function ImageGallery({ images }) {
+  const colorScheme = useColorScheme();
+  
+  return (
+    <Carousel 
+      loop 
+      mode={colorScheme}
+      className="w-full"
+    >
+      <CarouselContent>
+        {images.map((image, index) => (
+          <CarouselItem key={index}>
+            <Image
+              source={{ uri: image.url }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious variant="default" />
+      <CarouselNext variant="default" />
+    </Carousel>
+  );
+}
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: 400,
+    borderRadius: 8,
+  },
+});`}
+/>
+
+<ComponentCode
+  title="Onboarding Screens"
+  code={`import { Carousel, CarouselContent, CarouselItem } from '@nativecn/ui';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
+
+export function OnboardingScreens() {
+  const { width } = useWindowDimensions();
+  
+  const screens = [
+    {
+      title: 'Welcome',
+      description: 'Get started with our amazing app',
+      icon: '👋',
+    },
+    {
+      title: 'Features',
+      description: 'Discover all the powerful features',
+      icon: '⚡',
+    },
+    {
+      title: 'Get Started',
+      description: 'Create your account and jump right in',
+      icon: '🚀',
+    },
+  ];
+
+  return (
+    <Carousel className="w-full h-[500px]">
+      <CarouselContent>
+        {screens.map((screen, index) => (
+          <CarouselItem key={index}>
+            <View style={[styles.screen, { width }]}>
+              <Text style={styles.icon}>{screen.icon}</Text>
+              <Text style={styles.title}>{screen.title}</Text>
+              <Text style={styles.description}>{screen.description}</Text>
+            </View>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+    </Carousel>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  icon: {
+    fontSize: 64,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#666',
+  },
+});`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Carousel Props"
+  language="typescript"
+  code={`interface CarouselProps extends ViewProps {
+  // Orientation of the carousel
+  orientation?: 'horizontal' | 'vertical';
+  
+  // Enable infinite loop
+  loop?: boolean;
+  
+  // Number of items (optional, automatically calculated)
+  itemCount?: number;
+  
+  // Light/dark mode
+  mode?: 'light' | 'dark';
+  
+  // Optional className for styling
+  className?: string;
+}
+
+interface CarouselNavigationProps extends ViewProps {
+  // Navigation button variant
+  variant?: 'default' | 'outline' | 'ghost';
+  
+  // Button size
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  
+  // Optional className for styling
+  className?: string;
+}`}
+/>
