@@ -1,0 +1,253 @@
+---
+title: "Breadcrumb Component | NativeCN UI"
+description: "Navigation breadcrumb component for React Native apps - create accessible navigation trails with customizable separators and responsive styling."
+---
+
+# Breadcrumb Component
+
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '../../components/ui/breadcrumb'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const BreadcrumbWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Breadcrumb mode={mode} {...props} />;
+}
+
+export const BreadcrumbListWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <BreadcrumbList mode={mode} {...props} />;
+}
+
+export const BreadcrumbLinkWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <BreadcrumbLink mode={mode} {...props} />;
+}
+
+export const BreadcrumbPageWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <BreadcrumbPage mode={mode} {...props} />;
+}
+
+export const BreadcrumbSeparatorWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <BreadcrumbSeparator mode={mode} {...props} />;
+}
+
+## Installation
+
+The Breadcrumb component provides navigation context in hierarchical structures.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add breadcrumb"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic Breadcrumb"
+  code={`<Breadcrumb mode="...">
+  <BreadcrumbList mode="...">
+    <BreadcrumbItem>
+      <BreadcrumbLink mode="..." onPress={() => {}}>Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="..." />
+    <BreadcrumbItem>
+      <BreadcrumbLink mode="..." onPress={() => {}}>Components</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="..." />
+    <BreadcrumbItem>
+      <BreadcrumbPage mode="...">Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <BreadcrumbWithMode>
+    <BreadcrumbListWithMode>
+      <BreadcrumbItem>
+        <BreadcrumbLinkWithMode onPress={() => {}}>Home</BreadcrumbLinkWithMode>
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode />
+      <BreadcrumbItem>
+        <BreadcrumbLinkWithMode onPress={() => {}}>Components</BreadcrumbLinkWithMode>
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode />
+      <BreadcrumbItem>
+        <BreadcrumbPageWithMode>Breadcrumb</BreadcrumbPageWithMode>
+      </BreadcrumbItem>
+    </BreadcrumbListWithMode>
+  </BreadcrumbWithMode>
+</ComponentPreview>
+
+## With Ellipsis
+
+<ComponentPreview
+  title="Breadcrumb with Ellipsis"
+  code={`<Breadcrumb mode="...">
+  <BreadcrumbList mode="...">
+    <BreadcrumbItem>
+      <BreadcrumbLink mode="..." onPress={() => {}}>Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="..." />
+    <BreadcrumbItem>
+      <BreadcrumbEllipsis mode="..." />
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="..." />
+    <BreadcrumbItem>
+      <BreadcrumbLink mode="..." onPress={() => {}}>Settings</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="..." />
+    <BreadcrumbItem>
+      <BreadcrumbPage mode="...">Profile</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <BreadcrumbWithMode>
+    <BreadcrumbListWithMode>
+      <BreadcrumbItem>
+        <BreadcrumbLinkWithMode onPress={() => {}}>Home</BreadcrumbLinkWithMode>
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode />
+      <BreadcrumbItem>
+        <BreadcrumbEllipsis />
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode />
+      <BreadcrumbItem>
+        <BreadcrumbLinkWithMode onPress={() => {}}>Settings</BreadcrumbLinkWithMode>
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode />
+      <BreadcrumbItem>
+        <BreadcrumbPageWithMode>Profile</BreadcrumbPageWithMode>
+      </BreadcrumbItem>
+    </BreadcrumbListWithMode>
+  </BreadcrumbWithMode>
+</ComponentPreview>
+
+## Custom Separator
+
+<ComponentPreview
+  title="Breadcrumb with Custom Separator"
+  code={`<Breadcrumb mode="...">
+  <BreadcrumbList mode="...">
+    <BreadcrumbItem>
+      <BreadcrumbLink mode="..." onPress={() => {}}>Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="...">/</BreadcrumbSeparator>
+    <BreadcrumbItem>
+      <BreadcrumbLink mode="..." onPress={() => {}}>Docs</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator mode="...">/</BreadcrumbSeparator>
+    <BreadcrumbItem>
+      <BreadcrumbPage mode="...">Guide</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`}
+>
+  <BreadcrumbWithMode>
+    <BreadcrumbListWithMode>
+      <BreadcrumbItem>
+        <BreadcrumbLinkWithMode onPress={() => {}}>Home</BreadcrumbLinkWithMode>
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode>/</BreadcrumbSeparatorWithMode>
+      <BreadcrumbItem>
+        <BreadcrumbLinkWithMode onPress={() => {}}>Docs</BreadcrumbLinkWithMode>
+      </BreadcrumbItem>
+      <BreadcrumbSeparatorWithMode>/</BreadcrumbSeparatorWithMode>
+      <BreadcrumbItem>
+        <BreadcrumbPageWithMode>Guide</BreadcrumbPageWithMode>
+      </BreadcrumbItem>
+    </BreadcrumbListWithMode>
+  </BreadcrumbWithMode>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Basic Breadcrumb Usage with Navigation"
+  code={`import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '../components/ui/breadcrumb';
+import { useColorScheme, useNavigation } from 'react-native';
+
+export function NavigationBreadcrumb({ path }) {
+  const colorScheme = useColorScheme();
+  const navigation = useNavigation();
+  
+  return (
+    <Breadcrumb>
+      <BreadcrumbList mode={colorScheme}>
+        {path.map((item, index) => (
+          <React.Fragment key={item.path}>
+            <BreadcrumbItem>
+              {index === path.length - 1 ? (
+                <BreadcrumbPage mode={colorScheme}>{item.label}</BreadcrumbPage>
+              ) : (
+                <BreadcrumbLink 
+                  mode={colorScheme}
+                  onPress={() => navigation.navigate(item.path)}
+                >
+                  {item.label}
+                </BreadcrumbLink>
+              )}
+            </BreadcrumbItem>
+            {index < path.length - 1 && (
+              <BreadcrumbSeparator mode={colorScheme} />
+            )}
+          </React.Fragment>
+        ))}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Breadcrumb Component Props"
+  language="typescript"
+  code={`// Breadcrumb Props
+interface BreadcrumbProps extends ViewProps {
+  className?: string;
+}
+
+// BreadcrumbList Props
+interface BreadcrumbListProps extends ViewProps {
+  className?: string;
+  mode?: 'light' | 'dark';
+}
+
+// BreadcrumbItem Props
+interface BreadcrumbItemProps extends ViewProps {
+  className?: string;
+}
+
+// BreadcrumbLink Props
+interface BreadcrumbLinkProps extends PressableProps {
+  className?: string;
+  textClassName?: string;
+  asChild?: boolean;
+  mode?: 'light' | 'dark';
+}
+
+// BreadcrumbPage Props
+interface BreadcrumbPageProps extends TextProps {
+  className?: string;
+  mode?: 'light' | 'dark';
+}
+
+// BreadcrumbSeparator Props
+interface BreadcrumbSeparatorProps extends ViewProps {
+  className?: string;
+  children?: React.ReactNode;
+  mode?: 'light' | 'dark';
+}
+
+// BreadcrumbEllipsis Props
+interface BreadcrumbEllipsisProps extends ViewProps {
+  className?: string;
+  mode?: 'light' | 'dark';
+}`}
+/>
