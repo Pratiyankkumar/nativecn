@@ -1,0 +1,283 @@
+---
+title: "Card Component | NativeCN UI"
+description: "Flexible card component for React Native apps - perfect for organizing content with headers, descriptions, and footers in a clean, structured layout."
+---
+
+# Card Component
+
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from '../../components/ui/card'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+import { Text } from 'react-native'
+import Button from '../../components/ui/button'
+
+export const CardWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Card mode={mode} {...props} />;
+}
+
+export const CardTitleWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <CardTitle mode={mode} {...props} />;
+}
+
+export const CardDescriptionWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <CardDescription mode={mode} {...props} />;
+}
+
+export const TextWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Text className={mode === 'dark' ? 'text-dark-foreground' : 'text-foreground'} {...props} />;
+}
+
+export const ButtonWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Button mode={mode} {...props} />;
+}
+
+export const InputWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <input 
+    {...props} 
+    style={{
+      ...props.style,
+      border: `1px solid ${mode === 'dark' ? '#444' : '#ccc'}`,
+      background: mode === 'dark' ? '#1a1a1a' : '#fff',
+      color: mode === 'dark' ? '#fff' : '#000'
+    }}
+  />;
+}
+
+export const TextAreaWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <textarea 
+    {...props}
+    style={{
+      ...props.style,
+      border: `1px solid ${mode === 'dark' ? '#444' : '#ccc'}`,
+      background: mode === 'dark' ? '#1a1a1a' : '#fff', 
+      color: mode === 'dark' ? '#fff' : '#000'
+    }}
+  />;
+}
+
+## Installation
+
+The Card component provides a flexible container for organizing related content.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add card"
+  title="Installation Command"
+/>
+
+## Basic Example
+
+<ComponentPreview
+  title="Basic Card Layout"
+  code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@nativecn/ui';
+
+<Card mode="light">
+  <CardHeader>
+    <CardTitle>Account Settings</CardTitle>
+    <CardDescription>Manage your account preferences and details</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <Text>Your account content goes here</Text>
+  </CardContent>
+</Card>`}
+>
+  <div style={{ width: '100%', maxWidth: '400px' }}>
+    <CardWithMode>
+      <CardHeader>
+        <CardTitleWithMode>Account Settings</CardTitleWithMode>
+        <CardDescriptionWithMode>Manage your account preferences and details</CardDescriptionWithMode>
+      </CardHeader>
+      <CardContent>
+        <TextWithMode>Your account content goes here</TextWithMode>
+      </CardContent>
+    </CardWithMode>
+  </div>
+</ComponentPreview>
+
+## With Footer Actions
+
+<ComponentPreview
+  title="Card with Footer Actions"
+  code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@nativecn/ui';
+import { Button } from '@nativecn/ui';
+
+<Card mode="light">
+  <CardHeader>
+    <CardTitle>New Project</CardTitle>
+    <CardDescription>Create a new project from scratch</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <View style={{ gap: 10 }}>
+      <TextInput 
+        placeholder="Project name"
+        style={{ borderWidth: 1, padding: 8, borderRadius: 4 }}
+      />
+      <TextInput
+        placeholder="Description"
+        multiline
+        numberOfLines={3}
+        style={{ borderWidth: 1, padding: 8, borderRadius: 4 }}
+      />
+    </View>
+  </CardContent>
+  <CardFooter>
+    <View style={{ flexDirection: 'row', gap: 8 }}>
+      <Button variant="outline">Cancel</Button>
+      <Button>Create Project</Button>
+    </View>
+  </CardFooter>
+</Card>`}
+>
+  <div style={{ width: '100%', maxWidth: '400px' }}>
+    <CardWithMode>
+      <CardHeader>
+        <CardTitleWithMode>New Project</CardTitleWithMode>
+        <CardDescriptionWithMode>Create a new project from scratch</CardDescriptionWithMode>
+      </CardHeader>
+      <CardContent>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <InputWithMode 
+            placeholder="Project name"
+            style={{ padding: '8px', borderRadius: '4px' }}
+          />
+          <TextAreaWithMode
+            placeholder="Description"
+            rows={3}
+            style={{ padding: '8px', borderRadius: '4px' }}
+          />
+        </div>
+      </CardContent>
+      <CardFooter>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <ButtonWithMode variant="outline">Cancel</ButtonWithMode>
+          <ButtonWithMode>Create Project</ButtonWithMode>
+        </div>
+      </CardFooter>
+    </CardWithMode>
+  </div>
+</ComponentPreview>
+
+## Profile Card Example
+
+<ComponentPreview
+  title="Profile Card"
+  code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@nativecn/ui';
+import { Image } from 'react-native';
+
+<Card mode="light">
+  <CardHeader>
+    <Image
+      source={{ uri: 'https://avatars.githubusercontent.com/u/157279520?v=4' }}
+      style={{ width: 60, height: 60, borderRadius: 30 }}
+    />
+    <CardTitle>major tom</CardTitle>
+    <CardDescription>Full Stack Developer</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <View style={{ gap: 8 }}>
+      <Text>📍 Bengaluru, India</Text>
+      <Text>📧 tailwiinder@gmail.com</Text>
+      <Text>🔗 github.com/tailwiinder</Text>
+    </View>
+  </CardContent>
+</Card>`}
+>
+  <div style={{ width: '100%', maxWidth: '300px' }}>
+    <CardWithMode>
+      <CardHeader>
+        <img
+          src="https://avatars.githubusercontent.com/u/157279520?v=4"
+          style={{ width: '60px', height: '60px', borderRadius: '30px' }}
+        />
+        <CardTitleWithMode>major tom</CardTitleWithMode>
+        <CardDescriptionWithMode>Full Stack Developer</CardDescriptionWithMode>
+      </CardHeader>
+      <CardContent>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <TextWithMode>📍 Bengaluru, India</TextWithMode>
+          <TextWithMode>📧 <a href="mailto:tailwiinder@gmail.com">tailwiinder@gmail.com</a></TextWithMode>
+          <TextWithMode>🔗 github.com/tailwiinder</TextWithMode>
+        </div>
+      </CardContent>
+    </CardWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Responsive Card with Dynamic Mode"
+  code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@nativecn/ui';
+import { useColorScheme } from 'react-native';
+
+export function ProductCard({ product }) {
+  const colorScheme = useColorScheme();
+  
+  return (
+    <Card mode={colorScheme}>
+      <CardHeader>
+        <CardTitle mode={colorScheme}>{product.name}</CardTitle>
+        <CardDescription mode={colorScheme}>{product.category}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Image 
+          source={{ uri: product.image }}
+          style={{ width: '100%', height: 200 }}
+          resizeMode="cover"
+        />
+        <Text style={{ marginTop: 16 }}>{product.description}</Text>
+        <Text style={{ marginTop: 8, fontWeight: 'bold' }}>
+            {product.price}
+        </Text>
+      </CardContent>
+    </Card>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Card Component Props"
+  language="typescript"
+  code={`// Card Props
+interface CardProps extends ViewProps {
+  className?: string;
+  mode?: 'light' | 'dark';
+}
+
+// CardHeader Props
+interface CardHeaderProps extends ViewProps {
+  className?: string;
+}
+
+// CardTitle Props
+interface CardTitleProps extends TextProps {
+  className?: string;
+  mode?: 'light' | 'dark';
+}
+
+// CardDescription Props
+interface CardDescriptionProps extends TextProps {
+  className?: string;
+  mode?: 'light' | 'dark';
+}
+
+// CardContent Props
+interface CardContentProps extends ViewProps {
+  className?: string;
+}
+
+// CardFooter Props
+interface CardFooterProps extends ViewProps {
+  className?: string;
+}`}
+/>
