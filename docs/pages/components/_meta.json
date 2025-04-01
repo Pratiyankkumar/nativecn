@@ -1,13 +1,13 @@
 {
   "accordion": "Accordion",
   "alert": "Alert",
-  "button": "Button",
   "alert-dialog": "Alert Dialog",
+  "aspect-ratio": "Aspect Ratio",
   "avatar": "Avatar",
-  "skeleton": "Skeleton",
   "badge": "Badge",
   "breadcrumb": "Breadcrumb",
+  "button": "Button",
   "card": "Card",
   "input-otp": "OTP Input",
-  "aspect-ratio": "Aspect Ratio"
+  "skeleton": "Skeleton"
 }
