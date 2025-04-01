@@ -8,6 +8,7 @@
   "breadcrumb": "Breadcrumb",
   "button": "Button",
   "card": "Card",
+  "carousel": "Carousel",
   "input-otp": "OTP Input",
   "skeleton": "Skeleton"
 }
