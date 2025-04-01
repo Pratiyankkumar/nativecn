@@ -8,5 +8,6 @@
   "badge": "Badge",
   "breadcrumb": "Breadcrumb",
   "card": "Card",
-  "input-otp": "OTP Input"
+  "input-otp": "OTP Input",
+  "aspect-ratio": "Aspect Ratio"
 }

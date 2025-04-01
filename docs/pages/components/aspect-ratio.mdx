@@ -1,0 +1,285 @@
+---
+title: "AspectRatio Component | NativeCN UI"
+description: "A flexible aspect ratio container component for React Native apps that maintains consistent proportions across different screen sizes and orientations."
+---
+
+# AspectRatio Component
+
+import { AspectRatio } from '../../components/ui/aspectratio'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const AspectRatioWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <AspectRatio {...props} />;
+}
+
+## Installation
+
+The AspectRatio component helps maintain consistent proportions for content across different screen sizes.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add aspectratio"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic AspectRatio"
+  code={`import { AspectRatio } from '@nativecn/ui';
+import { Image } from 'react-native';
+
+export default function App() {
+  return (
+    <AspectRatio ratio={16/9}>
+      <Image
+        source={{ uri: 'https://placehold.co/800x450' }}
+        style={{ width: '100%', height: '100%' }}
+      />
+    </AspectRatio>
+  );
+}`}
+>
+  <div style={{ maxWidth: '400px', width: '100%' }}>
+    <AspectRatioWithMode ratio={16/9}>
+      <img 
+        src="https://placehold.co/800x450" 
+        alt="Demo"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </AspectRatioWithMode>
+  </div>
+</ComponentPreview>
+
+## Common Ratios
+
+<ComponentPreview
+  title="Different Aspect Ratios"
+  code={`// Square (1:1)
+<AspectRatio ratio={1}>
+  <Image
+    source={{ uri: 'https://placehold.co/400x400' }}
+    style={{ width: '100%', height: '100%' }}
+  />
+</AspectRatio>
+
+// Landscape (16:9)
+<AspectRatio ratio={16/9}>
+  <Image
+    source={{ uri: 'https://placehold.co/800x450' }}
+    style={{ width: '100%', height: '100%' }}
+  />
+</AspectRatio>
+
+// Portrait (3:4)
+<AspectRatio ratio={3/4}>
+  <Image
+    source={{ uri: 'https://placehold.co/600x800' }}
+    style={{ width: '100%', height: '100%' }}
+  />
+</AspectRatio>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '300px', width: '100%' }}>
+    <AspectRatioWithMode ratio={1}>
+      <img 
+        src="https://placehold.co/400x400" 
+        alt="Square"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </AspectRatioWithMode>
+    <AspectRatioWithMode ratio={16/9}>
+      <img 
+        src="https://placehold.co/800x450" 
+        alt="Landscape"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </AspectRatioWithMode>
+    <AspectRatioWithMode ratio={3/4}>
+      <img 
+        src="https://placehold.co/600x800" 
+        alt="Portrait"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </AspectRatioWithMode>
+  </div>
+</ComponentPreview>
+
+## With Custom Content
+
+<ComponentPreview
+  title="Map Preview"
+  code={`import { AspectRatio } from '@nativecn/ui';
+import { View, Text, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+export default function MapPreview() {
+  return (
+    <AspectRatio ratio={16/9}>
+      <Image
+        source={{ uri: 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/-74.5,40,9,0/800x450?access_token=YOUR_MAPBOX_TOKEN' }}
+        style={{ width: '100%', height: '100%' }}
+      />
+      <View style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <View style={{
+          backgroundColor: '#ff4757',
+          width: 20,
+          height: 20,
+          borderRadius: 10,
+          borderWidth: 2,
+          borderColor: 'white',
+        }} />
+      </View>
+      <View style={{
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        padding: 5,
+        borderRadius: 4
+      }}>
+        <Text>New York Area</Text>
+      </View>
+    </AspectRatio>
+  );
+}`}
+>
+  <div style={{ maxWidth: '400px', width: '100%' }}>
+    <AspectRatioWithMode ratio={16/9}>
+      <div style={{ 
+        width: '100%', 
+        height: '100%', 
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundColor: '#e0e8f0',
+        backgroundImage: 'url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/-74.5,40,9,0/800x450?access_token=pk.eyJ1IjoiZXhhbXBsZXVzZXIiLCJhIjoiY2xhbXBsZXRva2VuIn0.123456789012)'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '20px',
+          height: '20px',
+          backgroundColor: '#ff4757',
+          borderRadius: '50%',
+          border: '2px solid white',
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          padding: '5px',
+          borderRadius: '4px',
+          fontSize: '14px',
+          color: '#000',
+        }}>
+          New York Area
+        </div>
+      </div>
+    </AspectRatioWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Examples
+
+<ComponentCode
+  title="Image Gallery Item"
+  code={`import { AspectRatio } from '@nativecn/ui';
+import { Image, View, Text, StyleSheet } from 'react-native';
+
+export function GalleryItem({ imageUrl, title }) {
+  return (
+    <View style={styles.container}>
+      <AspectRatio ratio={4/3}>
+        <Image
+          source={{ uri: imageUrl }}
+          style={styles.image}
+        />
+      </AspectRatio>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  title: {
+    padding: 12,
+    fontSize: 16,
+    fontWeight: '500',
+  },
+});`}
+/>
+
+<ComponentCode
+  title="Video Thumbnail"
+  code={`import { AspectRatio } from '@nativecn/ui';
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+
+export function VideoThumbnail({ thumbnailUrl, onPress }) {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <AspectRatio ratio={16/9}>
+        <Image
+          source={{ uri: thumbnailUrl }}
+          style={styles.thumbnail}
+        />
+        <View style={styles.overlay}>
+          <Icon name="play-circle" size={48} color="#fff" />
+        </View>
+      </AspectRatio>
+    </TouchableOpacity>
+  );
+}
+
+const styles = StyleSheet.create({
+  thumbnail: {
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="AspectRatio Props"
+  language="typescript"
+  code={`interface AspectRatioProps {
+  // The desired aspect ratio (width/height)
+  ratio?: number;
+  
+  // Optional className for styling
+  className?: string;
+  
+  // Content to maintain the aspect ratio
+  children: React.ReactNode;
+}`}
+/>
