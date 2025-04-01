@@ -1,0 +1,297 @@
+---
+title: "OTP Input Component | NativeCN UI"
+description: "A versatile OTP (One-Time Password) input component for React Native apps with customizable length, validation, and auto-submission features."
+---
+
+# OTP Input Component
+
+import { OTPInput } from '../../components/ui/input-otp'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext, useState } from 'react'
+
+export const OTPWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  const [value, setValue] = useState('');
+  return <OTPInput 
+    mode={mode} 
+    value={value} 
+    onChange={setValue} 
+    {...props} 
+  />;
+}
+
+## Installation
+
+The OTP Input component is designed for secure verification code entry in mobile applications.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add input-otp"
+  title="Installation Command"
+/>
+
+## Basic Usage
+
+<ComponentPreview
+  title="Basic OTP Input"
+  code={`import { OTPInput } from '@nativecn/ui';
+
+export default function VerificationScreen() {
+  const [value, setValue] = useState('');
+  return (
+    <OTPInput
+      length={6}
+      mode="light"
+      value={value}
+      onChange={setValue}
+      onComplete={(code) => {
+        console.log('Completed:', code);
+      }}
+    />
+  );
+}`}
+>
+  <div style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}>
+    <OTPWithMode length={6} />
+  </div>
+</ComponentPreview>
+
+## Different Lengths
+
+<ComponentPreview
+  title="OTP Input Lengths"
+  code={`// 4-digit OTP
+<OTPInput
+  length={4}
+  mode="light"
+  keyboard="numeric"
+  value={value4}
+  onChange={setValue4}
+/>
+
+// 6-digit OTP with separator
+<OTPInput
+  length={6}
+  mode="light"
+  separator={true}
+  keyboard="numeric"
+  value={value6}
+  onChange={setValue6}
+/>
+
+// 8-digit OTP
+<OTPInput
+  length={8}
+  mode="light"
+  keyboard="numeric"
+  value={value8}
+  onChange={setValue8}
+/>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px', margin: '0 auto' }}>
+    <OTPWithMode length={4} />
+    <OTPWithMode length={6} separator={true} />
+    <OTPWithMode length={8} />
+  </div>
+</ComponentPreview>
+
+## Variants & States
+
+<ComponentPreview
+  title="OTP Input Variants"
+  code={`// Masked Input
+<OTPInput
+  length={6}
+  mode="light"
+  mask={true}
+  keyboard="numeric"
+  value={maskedValue}
+  onChange={setMaskedValue}
+/>
+
+// With Error State
+<OTPInput
+  length={6}
+  mode="light"
+  error="Invalid verification code"
+  keyboard="numeric"
+  value={errorValue}
+  onChange={setErrorValue}
+/>
+
+// Disabled State
+<OTPInput
+  length={6}
+  mode="light"
+  disabled={true}
+  keyboard="numeric"
+  value={disabledValue}
+  onChange={setDisabledValue}
+/>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px', margin: '0 auto' }}>
+    <OTPWithMode length={6} mask={true} />
+    <OTPWithMode length={6} error="Invalid verification code" />
+    <OTPWithMode length={6} disabled={true} />
+  </div>
+</ComponentPreview>
+
+## With Timer & Resend
+
+<ComponentPreview
+  title="OTP Input with Timer"
+  code={`import { OTPInput } from '@nativecn/ui';
+import { useState } from 'react';
+
+export default function VerificationWithTimer() {
+  const [value, setValue] = useState('');
+  return (
+    <OTPInput
+      length={6}
+      mode="light"
+      value={value}
+      onChange={setValue}
+      expiresIn={120} // 2 minutes
+      showExpiryTimer={true}
+      onExpire={() => {
+        console.log('Code expired');
+      }}
+      onResend={() => {
+        console.log('Resending code...');
+      }}
+      resendCooldown={30}
+      maxResendAttempts={3}
+    />
+  );
+}`}
+>
+  <div style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}>
+    <OTPWithMode 
+      length={6}
+      expiresIn={120}
+      showExpiryTimer={true}
+      onResend={() => {}}
+      resendCooldown={30}
+      maxResendAttempts={3}
+    />
+  </div>
+</ComponentPreview>
+
+## Advanced Usage Example
+
+<ComponentCode
+  title="Complete Verification Flow"
+  code={`import React, { useState } from 'react';
+import { View, Alert } from 'react-native';
+import { OTPInput } from '@nativecn/ui';
+import { useColorScheme } from 'react-native';
+
+export function VerificationScreen() {
+  const [isVerifying, setIsVerifying] = useState(false);
+  const colorScheme = useColorScheme();
+
+  const handleComplete = async (code) => {
+    setIsVerifying(true);
+    try {
+      // Verify the code with your API
+      const response = await verifyCode(code);
+      if (response.success) {
+        Alert.alert('Success', 'Verification completed!');
+      } else {
+        throw new Error('Invalid code');
+      }
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleResend = async () => {
+    try {
+      await resendVerificationCode();
+      Alert.alert('Success', 'New code sent!');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to resend code');
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+      <OTPInput
+        length={6}
+        mode={colorScheme}
+        disabled={isVerifying}
+        onComplete={handleComplete}
+        onResend={handleResend}
+        expiresIn={300}
+        showExpiryTimer={true}
+        resendCooldown={60}
+        maxResendAttempts={3}
+        keyboard="numeric"
+        autoFocus={true}
+        shouldAutoSubmit={true}
+        shouldHandleClipboard={true}
+      />
+    </View>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="OTP Input Props"
+  language="typescript"
+  code={`interface OTPInputProps {
+  // Core functionality
+  length?: number;
+  value?: string;
+  onChange?: (value: string) => void;
+  onComplete?: (value: string) => void;
+
+  // Appearance
+  disabled?: boolean;
+  autoFocus?: boolean;
+  separator?: boolean | React.ReactNode;
+  size?: 'sm' | 'md' | 'lg';
+  mask?: boolean;
+  keyboard?: 'default' | 'numeric';
+  error?: boolean | string;
+  className?: string;
+  mode?: 'light' | 'dark';
+
+  // Input validation
+  validateChar?: (char: string, index: number) => boolean;
+  allowedChars?: string | RegExp;
+
+  // Auto-submission
+  shouldAutoSubmit?: boolean;
+  autoSubmitDelay?: number;
+
+  // Timeout/Expiry
+  expiresIn?: number;
+  onExpire?: () => void;
+  showExpiryTimer?: boolean;
+
+  // Resend functionality
+  onResend?: () => void;
+  resendCooldown?: number;
+  maxResendAttempts?: number;
+
+  // Clipboard
+  shouldHandleClipboard?: boolean;
+
+  // Animation
+  animate?: boolean;
+  animationDuration?: number;
+
+  // Accessibility
+  ariaLabel?: string;
+  errorAriaLabel?: string;
+
+  // Testing
+  testID?: string;
+}`}
+/>

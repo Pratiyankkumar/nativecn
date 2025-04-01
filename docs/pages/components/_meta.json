@@ -7,5 +7,6 @@
   "skeleton": "Skeleton",
   "badge": "Badge",
   "breadcrumb": "Breadcrumb",
-  "card": "Card"
+  "card": "Card",
+  "input-otp": "OTP Input"
 }
