@@ -1,0 +1,115 @@
+---
+title: "Badge Component | NativeCN UI"
+description: "Versatile badge component for React Native apps - display status indicators, labels, and interactive elements with customizable styles."
+---
+
+# Badge Component
+
+import { Badge } from '../../components/ui/badge'
+import ComponentPreview, { PreviewModeContext } from '../../components/ComponentPreview'
+import ComponentCode from '../../components/ComponentCode'
+import { useContext } from 'react'
+
+export const BadgeWithMode = (props) => {
+  const mode = useContext(PreviewModeContext) || 'light';
+  return <Badge mode={mode} {...props} />;
+}
+
+## Installation
+
+The Badge component is used to highlight and display status, labels, or counts.
+
+<ComponentCode 
+  language="bash"
+  code="npx @nativecn/cli add badge"
+  title="Installation Command"
+/>
+
+## Basic Variants
+
+<ComponentPreview
+  title="Badge Variants"
+  code={`// The mode prop will automatically be set to 'light' or 'dark' based on the preview container
+<Badge mode="..." variant="default">Default</Badge>
+<Badge mode="..." variant="secondary">Secondary</Badge>
+<Badge mode="..." variant="destructive">Destructive</Badge>
+<Badge mode="..." variant="outline">Outline</Badge>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
+    <BadgeWithMode>Default</BadgeWithMode>
+    <BadgeWithMode variant="secondary">Secondary</BadgeWithMode>
+    <BadgeWithMode variant="destructive">Destructive</BadgeWithMode>
+    <BadgeWithMode variant="outline">Outline</BadgeWithMode>
+  </div>
+</ComponentPreview>
+
+## Interactive Badges
+
+<ComponentPreview
+  title="Interactive Badges"
+  code={`<Badge mode="..." interactive>Interactive Default</Badge>
+<Badge mode="..." variant="secondary" interactive>Interactive Secondary</Badge>
+<Badge mode="..." variant="destructive" interactive>Interactive Destructive</Badge>
+<Badge mode="..." variant="outline" interactive>Interactive Outline</Badge>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
+    <BadgeWithMode interactive>Interactive Default</BadgeWithMode>
+    <BadgeWithMode variant="secondary" interactive>Interactive Secondary</BadgeWithMode>
+    <BadgeWithMode variant="destructive" interactive>Interactive Destructive</BadgeWithMode>
+    <BadgeWithMode variant="outline" interactive>Interactive Outline</BadgeWithMode>
+  </div>
+</ComponentPreview>
+
+## Custom Styling
+
+<ComponentPreview
+  title="Custom Styled Badges"
+  code={`<Badge mode="..." className="bg-blue-500">Custom Background</Badge>
+<Badge mode="..." textClassName="text-red-500">Custom Text Color</Badge>
+<Badge mode="..." className="border-2 border-green-500" variant="outline">Custom Border</Badge>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', flexWrap: 'wrap' }}>
+    <BadgeWithMode className="bg-blue-500">Custom Background</BadgeWithMode>
+    <BadgeWithMode textClassName="text-red-500">Custom Text Color</BadgeWithMode>
+    <BadgeWithMode className="border-2 border-green-500" variant="outline">Custom Border</BadgeWithMode>
+  </div>
+</ComponentPreview>
+
+## Usage Example
+
+<ComponentCode
+  title="Basic Badge Usage with Responsive Mode"
+  code={`import { Badge } from '../components/ui/badge';
+import { useColorScheme } from 'react-native';
+
+export function NotificationBadge({ count }) {
+  const colorScheme = useColorScheme();
+  
+  return (
+    <Badge 
+      mode={colorScheme} // 'light' or 'dark' based on system preference
+      variant="destructive"
+      interactive
+    >
+      {count}
+    </Badge>
+  );
+}`}
+/>
+
+## Reference
+
+<ComponentCode
+  title="Badge Props"
+  language="typescript"
+  code={`interface BadgeProps extends Omit<TouchableOpacityProps, 'style'> {
+  variant?: 'default' | 'secondary' | 'destructive' | 'outline';
+  className?: string;
+  textClassName?: string;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  mode?: 'light' | 'dark';  // Controls light/dark appearance
+  children: React.ReactNode;
+  interactive?: boolean;  // Makes the badge clickable
+}`}
+/>

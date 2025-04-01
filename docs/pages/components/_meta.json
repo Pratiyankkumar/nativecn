@@ -4,5 +4,6 @@
   "button": "Button",
   "alert-dialog": "Alert Dialog",
   "avatar": "Avatar",
-  "skeleton": "Skeleton"
+  "skeleton": "Skeleton",
+  "badge": "Badge"
 }
